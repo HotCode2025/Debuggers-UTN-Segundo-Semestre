@@ -6,4 +6,3 @@ for i in range(3, 11, 2):
     numeros.append(i)
 
 print(numeros)
-
