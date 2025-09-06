@@ -1,0 +1,9 @@
+# Ejercicio 5: Factorial de un numero positivo
+# Hacer un programa para calcular el factorial de un numero positivo
+
+numero = int(input("Ingrese un número: "))
+numeroFactorial = 1
+for i in range(1, numero + 1):
+    numeroFactorial *= i
+
+print(f"El factorial de {numero} es {numeroFactorial}")
