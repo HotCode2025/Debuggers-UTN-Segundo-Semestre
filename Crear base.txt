@@ -1,0 +1,79 @@
+1. Crear la base de datos (si no existe)
+CREATE DATABASE IF NOT EXISTS sistemaventas_db;
+
+2. Usar la base de datos
+USE sistemaventas_db;
+
+3. Creamos las tablas
+-- empleados
+CREATE TABLE IF NOT EXISTS empleados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    dni VARCHAR(10),
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+);
+
+-- clientes
+CREATE TABLE IF NOT EXISTS clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion VARCHAR(255)
+);
+
+-- proveedores
+CREATE TABLE IF NOT EXISTS proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion VARCHAR(255)
+);
+
+-- propductos
+CREATE TABLE IF NOT EXISTS productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    marca VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    precioVenta decimal(8,2) NOT NULL
+);
+
+-- stock
+CREATE TABLE IF NOT EXISTS stock (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idProducto Int NOT NULL,
+    idProveedor Int NOT NULL,
+    cantidad Int NOT NULL,
+);
+
+-- pedidos
+CREATE TABLE IF NOT EXISTS pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente Int NOT NULL,
+    idProducto Int NOT NULL,
+    cantidad Int NOT NULL,
+);
+
+-- Cabecera de la Facturas
+CREATE TABLE IF NOT EXISTS facturaCabecera (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente Int NOT NULL,
+    fechaVenta date,
+    nroFactrura Int NOT NULL,
+);
+
+-- Detalle de la Facturas
+CREATE TABLE IF NOT EXISTS facturaDetalle(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idFactura Int NOT NULL,
+    idProducto Int NOT NULL,
+    cantidad Int NOT NULL,
+    precioVenta decimal(8,2) NOT NULL
+);
+
+
+
+
+
