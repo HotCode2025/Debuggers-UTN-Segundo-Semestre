@@ -75,5 +75,29 @@ public class Ventas {
             }while(!(salir.equalsIgnoreCase("S")|| salir.equalsIgnoreCase("N")));
         }while(!(salir.equalsIgnoreCase("S")));
         
+        System.out.println("+--------------------------------------------------------------------------+");
+        System.out.println("|                                  |R|                                     |");
+        System.out.println("| DISTRIBUIDORA DEBUGGERS UTN S.A.S                                        |");
+        System.out.println("| Dirección: Las Malvinas 810 - El Cerrito- San Rafael- Mendoza            |");
+        System.out.println("+--------------------------------------------------------------------------+");
+        textoMostrar = "Nombre Cliente: "+clienteNombre[nroCliente];
+        while(texto.length < 66){
+            textoMostrar = textoMostrar+" ";
+        }
+        System.out.println("| "+ textoMostrar +"|");
+        System.out.println("| Domicilio Cliente: "+ clienteDomicilio[nroCliente]);
+        System.out.println("|                                                                          |");
+        System.out.println("| Cantidad | Producto                       | Precio Unit. |     Total     |");
+        System.out.println("+--------------------------------------------------------------------------+");
+        
+        textoMostrar = "Nombre Cliente "+clienteNombre[nroCliente];
+        while (texto.length < 66){
+            textoMostrar = textoMostrar+" ";
+        }
+        totalVenta = 0;
+        for(i = 0; i <= nroVenta,i++){
+            columna1 = 
+        }
+        
     }
 }
