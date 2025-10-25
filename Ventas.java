@@ -81,7 +81,7 @@ public class Ventas {
         System.out.println("| Dirección: Las Malvinas 810 - El Cerrito- San Rafael- Mendoza            |");
         System.out.println("+--------------------------------------------------------------------------+");
         textoMostrar = "Nombre Cliente: "+clienteNombre[nroCliente];
-        while(texto.length < 66){
+        while(textoMostrar.length < 66){
             textoMostrar = textoMostrar+" ";
         }
         System.out.println("| "+ textoMostrar +"|");
@@ -91,13 +91,38 @@ public class Ventas {
         System.out.println("+--------------------------------------------------------------------------+");
         
         textoMostrar = "Nombre Cliente "+clienteNombre[nroCliente];
-        while (texto.length < 66){
+        while (textoMostrar.length < 66){
             textoMostrar = textoMostrar+" ";
         }
         totalVenta = 0;
         for(i = 0; i <= nroVenta,i++){
-            columna1 = 
+            columna1 = Integer.toString(cantidadProductoVenta[i]);
+            while (columna1.length < 6){
+                columna1 = (" "+columna1);
+            }
+            columna2 = productoNombre[productoventa[i]];
+            while (columna2.length< 30){
+                columna2 = columna2 + " ";
         }
+            columna3 = Integer.toString(precioVenta[i]);
+            while (columna3.length < 10){
+                columna3 = " "+columna3;
+            }
+            columna4 = Integer.toString(cantidadProductoVenta[i]*precioVenta[i]);
+            while (columna4.length < 10){
+                columna4 = " "+columna4;
+            }
+            System.out.println("| "+columna1+"   |"+columna2+" | "+columna3+"   | "+columna4+"    |");
+            totalVenta = totalVenta + (cantidadProductoventa[i] * precioVenta[i]);
+        }
+        System.out.println("+----------+--------------------------------+--------------+---------------+");
+        System.out.println("|                                                                          |");
+        System.out.println("|                                      El total de la venta es: $ "+totalVenta);
+        System.out.println("|                                                                          |");
+        System.out.println("+----------+--------------------------------+--------------+---------------+");
+        
+        System.out.println("Presione <enter> para continuar: ");
+        salir = entrada.nextLine();
         
     }
 }
