@@ -1,17 +1,6 @@
 /*
- * CLASE: ClientesDAO
- * * PROPÓSITO:
- * Esta clase se encarga del acceso a la base de datos para la entidad 'Clientes'. (DAO - Data Access Object)
- * Su tarea es centralizar y gestionar todas las interacciones entre la aplicación y la tabla 'clientes' 
- * de la base de datos MySQL.
- * * FUNCIONALIDADES INCLUIDAS:
- * - agregarCliente: Métodos para insertar nuevos clientes.
- * - modificarCliente: Métodos para modificar datos de clientes existentes.
- * - buscarPorNombre: Busca clientes por una coincidencia parcial en el nombre.
- * - buscarPorId: Busca un cliente específico por su ID.
- * * DEPENDENCIA:
- * Requiere la clase 'Clientes' (modelo) y la clase 'ConexionDB' (para obtener la conexión a la base de datos).
- */
+ * 
+*/
 package SistemaDeVentas;
 
 /*
@@ -22,20 +11,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientesDAO {
+public class ProveedoresDAO {
     // ------------------------------------------------------------------------------------------------------------
-    // Agegamos un nuevo cliente
-    public void agregarCliente(Clientes cliente) {
+    // Agegamos un nuevo proveedor
+    public void agregarProveedor(Proveedores proveedor) {
         // Insertamos los datos en la tabla 'clientes'
-        String sql = "INSERT INTO clientes (nombre, telefono, correo, direccion) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO proveedores (nombre, telefono, correo, direccion) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = ConexionDB.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) { 
 
-            pstmt.setString(1, cliente.getNombre());
-            pstmt.setString(2, cliente.getTelefono());
-            pstmt.setString(3, cliente.getCorreo());
-            pstmt.setString(4, cliente.getDireccion());
+            pstmt.setString(1, proveedor.getNombre());
+            pstmt.setString(2, proveedor.getTelefono());
+            pstmt.setString(3, proveedor.getCorreo());
+            pstmt.setString(4, proveedor.getDireccion());
             pstmt.executeUpdate();
         } 
         catch (SQLException e) { 
@@ -45,18 +34,18 @@ public class ClientesDAO {
     
     // ------------------------------------------------------------------------------------------------------------
     // Agegamos un nuevo cliente
-    public void modificarCliente(Clientes cliente) {
+    public void modificarProveedor(Proveedores proveedor) {
         // Modificamos los datos en la tabla 'clientes' segun el ID 
         String sql = "UPDATE clientes SET nombre = ?, telefono = ?, correo = ?, direccion = ? WHERE id = ?"; 
         
         try (Connection conn = ConexionDB.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) { 
 
-            pstmt.setString(1, cliente.getNombre());
-            pstmt.setString(2, cliente.getTelefono());
-            pstmt.setString(3, cliente.getCorreo());
-            pstmt.setString(4, cliente.getDireccion());
-            pstmt.setInt(5, cliente.getId());
+            pstmt.setString(1, proveedor.getNombre());
+            pstmt.setString(2, proveedor.getTelefono());
+            pstmt.setString(3, proveedor.getCorreo());
+            pstmt.setString(4, proveedor.getDireccion());
+            pstmt.setInt(5, proveedor.getId());
             pstmt.executeUpdate();
         } 
         catch (SQLException e) { 
@@ -70,7 +59,7 @@ public class ClientesDAO {
         List<Clientes> clientesEncontrados = new ArrayList<>();
 
         // Usamos LIKE para búsqueda flexible e LOWER para insensibilidad a mayúsculas
-        String sql = "SELECT * FROM clientes WHERE LOWER(nombre) LIKE LOWER(?)";
+        String sql = "SELECT * FROM proveedores WHERE LOWER(nombre) LIKE LOWER(?)";
 
         try (Connection conn = ConexionDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -96,7 +85,7 @@ public class ClientesDAO {
         Clientes cliente = null;
 
         // Búsqueda exacta por ID
-        String sql = "SELECT * FROM clientes WHERE id = ?";
+        String sql = "SELECT * FROM proveedores WHERE id = ?";
 
         try (Connection conn = ConexionDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

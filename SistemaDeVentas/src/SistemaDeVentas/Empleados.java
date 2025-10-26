@@ -11,21 +11,22 @@ package SistemaDeVentas;
 public class Empleados {
     private int id;
     private String nombre;
+    private String dni;
+    private String direccion;
     private String telefono;
-    private String email;
-    private String cargo;     // Atributo específico
-    private double salario;   // Atributo específico    
+    private String correo;
 
     public Empleados() {
+        // Constructor vacio
     }
 
-    public Empleados(int id, String nombre, String telefono, String email, String cargo, double salario) {
+    public Empleados(int id, String nombre, String dni, String direccion, String telefono, String correo) {
         this.id = id;
         this.nombre = nombre;
+        this.dni = dni;
+        this.direccion = direccion;
         this.telefono = telefono;
-        this.email = email;
-        this.cargo = cargo;
-        this.salario = salario;
+        this.correo = correo;
     }
 
     public int getId() {
@@ -40,6 +41,22 @@ public class Empleados {
         this.nombre = nombre;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
     public String getTelefono() {
         return telefono;
     }
@@ -48,27 +65,11 @@ public class Empleados {
         this.telefono = telefono;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
-    }
-
-    public double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }

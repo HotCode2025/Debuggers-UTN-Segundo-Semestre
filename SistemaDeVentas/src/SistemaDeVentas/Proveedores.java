@@ -8,18 +8,18 @@ package SistemaDeVentas;
  * @author Debuggers UTN
 */
 
-public class Clientes {
+public class Proveedores {
     private int id;
     private String nombre;
     private String telefono;
     private String correo;
     private String direccion;
 
-    public Clientes() {
+    public Proveedores() {
         // Constructor vacio
     }
 
-    public Clientes(int id, String nombre, String telefono, String correo, String direccion) {
+    public Proveedores(int id, String nombre, String telefono, String correo, String direccion) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
