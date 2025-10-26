@@ -33,7 +33,7 @@ git add Crear_Base.txt
 
 REM Crea el commit y sube los cambios al remoto
 git commit -m "Subida de código a la raíz remota sin estructura de directorios."
-git push upstream main
+git push upstream Proyecto_Java
 
 echo ----------------------------------------------------
 echo 3. RESTAURANDO ESTRUCTURA LOCAL...
@@ -44,7 +44,7 @@ move *.java "%SOURCE_DIR%"
 REM Confirma el movimiento de retorno (solo un cambio de estructura local)
 git add .
 git commit -m "revert: Estructura local restaurada a %SOURCE_DIR%"
-git push upstream main
+git push upstream Proyecto_Java
 
 echo ----------------------------------------------------
 echo PROCESO COMPLETADO. El repositorio remoto esta aplanado, y el local esta funcional.
