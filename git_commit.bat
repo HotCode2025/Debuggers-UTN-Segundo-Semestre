@@ -44,7 +44,7 @@ move *.java "%SOURCE_DIR%"
 REM Confirma el movimiento de retorno (solo un cambio de estructura local)
 git add .
 git commit -m "revert: Estructura local restaurada a %SOURCE_DIR%"
-git push origin main
+git push upstream main
 
 echo ----------------------------------------------------
 echo PROCESO COMPLETADO. El repositorio remoto esta aplanado, y el local esta funcional.
