@@ -33,7 +33,7 @@ git add Crear_Base.txt
 
 REM Crea el commit y sube los cambios al remoto
 git commit -m "Subida de código a la raíz remota sin estructura de directorios."
-git push origin main
+git push upstream main
 
 echo ----------------------------------------------------
 echo 3. RESTAURANDO ESTRUCTURA LOCAL...
