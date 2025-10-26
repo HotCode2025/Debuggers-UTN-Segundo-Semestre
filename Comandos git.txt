@@ -13,3 +13,7 @@ git fetch upstream Proyecto_Java
 # estando en el directorio raiz ejecutar
 git clone --branch Proyecto_Java --single-branch https://github.com/HotCode2025/Debuggers-UTN-Segundo-Semestre.git repo
 
+
+# Antes de comenzar a trabajar ejecutar para sincronicar el repo remoto con el local
+
+git pull upstream Proyecto_Java --allow-unrelated-histories
