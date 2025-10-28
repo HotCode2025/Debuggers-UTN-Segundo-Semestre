@@ -1,6 +1,6 @@
 /*
  * 
- */
+*/
 
 package SistemaDeVentas;
 
@@ -38,6 +38,7 @@ public class MenuPrincipal {
 //                        ProveedorMenu.ejecutarMenu();
                         break;
                     case 0:
+                        
                         System.out.println("Saliendo del sistema.");
                         break;
                     default:
