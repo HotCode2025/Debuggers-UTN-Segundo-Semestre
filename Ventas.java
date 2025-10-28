@@ -23,11 +23,17 @@ public class Ventas {
     
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
+<<<<<<< HEAD
                 
+=======
+        
+        
+>>>>>>> 1fc7ee89d3ea41b9c4604b7ee7db5d57697361ea
         // Almacenan los datos de los ítems de la venta (máx. 50)
         int[] cantidadProductoVenta = new int[MAX_ITEMS]; // Cantidad
         int[] productoVenta = new int[MAX_ITEMS];         // ID del Producto
         double[] precioVenta = new double[MAX_ITEMS];     // Precio de Venta unitario (usamos double)
+<<<<<<< HEAD
         String[] productoNombreVenta = new String[MAX_ITEMS];
 
 /*        
@@ -39,6 +45,9 @@ public class Ventas {
         renglon[nroVenta][columna4] =  
 */
 
+=======
+        
+>>>>>>> 1fc7ee89d3ea41b9c4604b7ee7db5d57697361ea
         int opcion1, i, nroVenta, nroCliente, nroProducto;
         String salir, columna1, columna2, columna3, columna4;
         float totalVenta;
@@ -140,7 +149,11 @@ public class Ventas {
             textoMostrar = textoMostrar+" ";
         }
         totalVenta = 0;
+<<<<<<< HEAD
 
+=======
+/*
+>>>>>>> 1fc7ee89d3ea41b9c4604b7ee7db5d57697361ea
         for(i = 0; i <= nroVenta; i++) {
             columna1 = Integer.toString(cantidadProductoVenta[i]);
             while (columna1.length() < 6){
@@ -169,6 +182,11 @@ public class Ventas {
         
         System.out.println("Presione <enter> para continuar: ");
         salir = entrada.nextLine();
+<<<<<<< HEAD
     
+=======
+     
+*/
+>>>>>>> 1fc7ee89d3ea41b9c4604b7ee7db5d57697361ea
     }
 }
