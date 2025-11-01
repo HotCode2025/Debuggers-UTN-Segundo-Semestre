@@ -29,11 +29,12 @@ public class ClientesMenu {
                 
                 switch (opcion) {
                     case 1:
-                        System.out.println("Función: Agregar Nuevo Cliente...");
+                        System.out.println("Agregar Nuevo Cliente");
                         crearCliente(); 
                     break;
                     case 2:
-                        System.out.println("Función: Mostrar Todos los Clientes...");
+                        System.out.println("Mostrar Todos los Clientes");
+                        mostrarTodosClientes();
                     break;
                     case 3:
                         buscarPorId();
@@ -133,6 +134,40 @@ public class ClientesMenu {
         }
     }
     
+    private static void mostrarTodosClientes() {
+        System.out.println("==================================================");
+        System.out.println("        LISTADO DE TODOS LOS CLIENTES");
+        System.out.println("==================================================");
+
+        List<Clientes> todosLosClientes = dao.listarTodos(); // Llama al método del DAO
+
+        if (todosLosClientes.isEmpty()) {
+            System.out.println("No hay clientes registrados en el sistema.");
+        } else {
+            // 2. Imprime los resultados
+            // Opcional: imprimir una cabecera formateada
+            System.out.printf("| %-4s | %-30s | %-15s | %-20s | %-30s |%n", "ID", "NOMBRE", "TELÉFONO", "CORREO", "DIRECCIÓN");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------");
+
+            for (Clientes cliente : todosLosClientes) {
+                String nombreTruncado = cortarCadena(cliente.getNombre(), 30);
+                String telefono = cliente.getTelefono();
+                String correoTruncado = cortarCadena(cliente.getCorreo(), 20);
+                String direccionTruncada = cortarCadena(cliente.getDireccion(), 30);
+                
+                System.out.printf("| %-4d | %-30s | %-15s | %-20s | %-30s |%n",
+                    cliente.getId(),
+                    nombreTruncado,
+                    telefono,
+                    correoTruncado,
+                    direccionTruncada
+                );
+            }
+            System.out.println("-------------------------------------------------------------------------------------------------------------------");
+            System.out.println("Total de registros: " + todosLosClientes.size());
+        }
+    }
+    
     // -----------------------------------------------------------------------------------------------------------------
     private static void buscarPorId() {
         System.out.print("Ingresa el ID (número entero): ");
@@ -162,6 +197,18 @@ public class ClientesMenu {
             System.out.println("Resultados encontrados:");
             resultados.forEach(System.out::println);
         }
+    }
+    
+    private static String cortarCadena(String texto, int ancho) {
+        if (texto == null) {
+            return "";
+        }
+        // Si el texto es más corto o igual al ancho, lo devuelve sin cambios.
+        if (texto.length() <= ancho) {
+            return texto;
+        }
+        // Si es más largo, lo trunca y añade tres puntos para indicar el corte.
+        return texto.substring(0, ancho - 3) + "...";
     }
 
 }

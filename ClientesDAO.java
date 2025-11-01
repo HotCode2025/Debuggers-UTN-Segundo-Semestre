@@ -65,6 +65,26 @@ public class ClientesDAO {
     } 
 
     // ------------------------------------------------------------------------------------------------------------
+    // Lista todos los cliente
+    public List<Clientes> listarTodos() {
+        List<Clientes> listaClientes = new ArrayList<>();
+        String sql = "SELECT * FROM clientes"; 
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) { 
+
+            while (rs.next()) {
+                Clientes cliente = crearClienteDesdeResultSet(rs);
+                listaClientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al listar todos los clientes: " + e.getMessage());
+        }
+        return listaClientes;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
     // Busca clientes por una coincidencia parcial en el nombre.
     public List<Clientes> buscarPorNombre(String terminoBusqueda) {
         List<Clientes> clientesEncontrados = new ArrayList<>();
@@ -118,6 +138,7 @@ public class ClientesDAO {
     
     private Clientes crearClienteDesdeResultSet(ResultSet rs) throws SQLException {
         Clientes cliente = new Clientes();
+        cliente.setId(rs.getInt("id"));
         cliente.setNombre(rs.getString("nombre"));
         cliente.setTelefono(rs.getString("telefono"));
         cliente.setCorreo(rs.getString("correo"));
