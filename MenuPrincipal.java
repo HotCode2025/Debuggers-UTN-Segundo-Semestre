@@ -27,7 +27,7 @@ public class MenuPrincipal {
                 switch (opcion) {
                     case 1:
                         // Llama al menú del módulo Clientes
-                        ClientesMenu.ejecutarMenu(); 
+                        ClientesMenu_JOP.ejecutarMenu(); 
                         break;
                     case 2:
                         // Llama al menú del módulo Empleados
