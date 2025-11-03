@@ -5,6 +5,7 @@ package SistemaDeVentas;
 */
 
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 //import SistemaDeVentas.ClientesDAO; 
 //import SistemaDeVentas.ProductosDAO; 
 //import SistemaDeVentas.UtilDAO; 
@@ -49,14 +50,14 @@ public class Ventas {
         
         existe = false;
         do {
-            System.out.println("+------------------------------+");
-            System.out.println("|        Modulo de ventas      |");
-            System.out.println("+------------------------------+");
+            System.out.println("+--------------------------------------------+");
+            System.out.println("|               Modulo de ventas             |");
+            System.out.println("+--------------------------------------------+");
             System.out.println(" ");
-            System.out.println(" Ingrese el numero de cliente: ");
+            Integer.parseInt(JOptionPane.showInputDialog(" Ingrese el numero de cliente: "));
             nroCliente = entrada.nextInt();
             if (nroCliente < 1 || nroCliente > totalClientes) {
-                System.out.println("El cliente numero " + nroCliente + " no existe.");
+                Integer.parseInt(JOptionPane.showInputDialog("El cliente numero " + nroCliente + " no existe."));
             } else {
                 existe = true;
             }
@@ -66,9 +67,9 @@ public class Ventas {
         
         nroVenta = 0;
         do {
-            System.out.println("+------------------------------+");
-            System.out.println("|        Modulo de ventas      |");
-            System.out.println("+------------------------------+");
+            System.out.println("+--------------------------------------------+");
+            System.out.println("|               Modulo de ventas             |");
+            System.out.println("+--------------------------------------------+");
             System.out.println(" ");
             System.out.println("Nombre Cliente: " + cliente.getNombre());
             System.out.println("Domicilio Cliente: " + cliente.getDireccion());
@@ -101,18 +102,18 @@ public class Ventas {
                     productoVenta[nroVenta] = nroProducto;
                     precioVenta[nroVenta] = producto.getPrecioVenta();
                     
-                    System.out.print("Ingrese la cantidad de: " + producto.getNombre() + ": ");
+                   Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de: " + producto.getNombre() + ": "));
                     cantidadProductoVenta[nroVenta] = entrada.nextInt();
                     entrada.nextLine();
                 } else {
                     if (nroProducto != 0) {
-                        System.out.println("El producto número " + nroProducto + "no existe. Verifique");
+                        Integer.parseInt(JOptionPane.showInputDialog("El producto número " + nroProducto + "no existe. Verifique"));
                     }
                 }
             } while (nroProducto != 0 && nroProducto != 14);
             do{
                 System.out.println(" ");
-                System.out.println("Confirma que desea finalizar (Digite S o N): ");
+                Integer.parseInt(JOptionPane.showInputDialog("Confirma que desea finalizar (Digite S o N): "));
                 salir = entrada.nextLine();
                 
             }while(!(salir.equalsIgnoreCase("S")|| salir.equalsIgnoreCase("N")));
