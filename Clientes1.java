@@ -1,14 +1,7 @@
-/*
- * 
- */
-
-package SistemaDeVentas;
-
-/*
- * @author Debuggers UTN
-*/
+package sistemadeventas;
 
 public class Clientes {
+
     private int id;
     private String nombre;
     private String telefono;
@@ -26,17 +19,17 @@ public class Clientes {
         this.correo = correo;
         this.direccion = direccion;
     }
-    
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
@@ -44,7 +37,7 @@ public class Clientes {
     }
 
     public String getTelefono() {
-        return telefono;
+        return this.telefono;
     }
 
     public void setTelefono(String telefono) {
@@ -52,7 +45,7 @@ public class Clientes {
     }
 
     public String getCorreo() {
-        return correo;
+        return this.correo;
     }
 
     public void setCorreo(String correo) {
@@ -60,7 +53,7 @@ public class Clientes {
     }
 
     public String getDireccion() {
-        return direccion;
+        return this.direccion;
     }
 
     public void setDireccion(String direccion) {
