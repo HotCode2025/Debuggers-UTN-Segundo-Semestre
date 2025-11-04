@@ -1,0 +1,7 @@
+# Acá dejo lo que es el ultimo video de la clase 2 que es "TUPLAS"
+tupla = (4, 'Hola', 6.78, [1, 2, 78], 4, 'Hola')
+print(tupla)
+
+print(4 in tupla) # Acción booleana, su respuesta es de tipo booleana
+# Lo que podemos usar dentro de tuplas son: index, count, len
+# En tuplas se puede convertir de tupla a lista y de lista a tupla
