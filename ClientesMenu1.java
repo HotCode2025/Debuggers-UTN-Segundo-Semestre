@@ -195,43 +195,46 @@ public class Clientesmenu {
         }
     }
     
-    //------------------------------------------------------------------------------------------------------------------
-    private static void eliminarCliente(){
+   // -----------------------------------------------------------------------------------------------------------------
+    private static void eliminarCliente() {
         System.out.println("\n--- ELIMINAR CLIENTE ---");
-        System.out.println("Ingresa el ID del cliente a eliminar: ");
-        
-        int id;
-        try {
-            id = Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e){
-            System.out.println("ERROR: El ID debe ser un número entero.");
-            return;
-        }
-        
-        // Buscar y mostrar el cliente antes de borrar
-        Clientes cliente = dao.buscarPorId(id);
-        
-        if (cliente == null){
-            System.out.println("No se encontró ningún cliente con el ID: " + id);
-            return;
-        }
-        
-        System.out.println("\nSe eliminará al siguiente cliente:");
-        System.out.println(cliente); 
-        
-        System.out.print("\n¿Estás seguro de que deseas eliminarlo? (S/N): ");
-        String confirmacion = scanner.nextLine();
+        System.out.print("Ingresa el ID del cliente a eliminar: ");
 
-        if (confirmacion.equalsIgnoreCase("S")) {
-            try {
-                // Llamamos al DAO para que ejecute la baja
-                dao.eliminarCliente(id); 
-                System.out.println("Cliente eliminado correctamente.");
-            } catch (Exception e) {
-                System.err.println("Error al intentar eliminar el cliente: " + e.getMessage());
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+
+            // 1. Primero buscamos al cliente para mostrar quién es (confirmación visual)
+            Clientes cliente = dao.buscarPorId(id);
+
+            if (cliente == null) {
+                System.out.println("️No existe ningún cliente con el ID: " + id);
+                return; // Salimos si no existe
             }
-        } else {
-            System.out.println("Operación cancelada.");
+
+            // 2. Mostramos los datos del cliente a eliminar
+            System.out.println("\nVas a eliminar al siguiente cliente:");
+            System.out.println("Nombre: " + cliente.getNombre());
+            System.out.println("Correo: " + cliente.getCorreo());
+
+            // 3. Pedimos confirmación final
+            System.out.print("\n¿Estás SEGURO? Escribe 'S' para confirmar: ");
+            String confirmacion = scanner.nextLine();
+
+            if (confirmacion.equalsIgnoreCase("S")) {
+                // 4. Llamamos al DAO para eliminar
+                boolean eliminado = dao.eliminarCliente(id);
+                
+                if (eliminado) {
+                    System.out.println("Cliente eliminado correctamente.");
+                } else {
+                    System.out.println("Error: No se pudo eliminar el cliente.");
+                }
+            } else {
+                System.out.println("Operación cancelada.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR: Debes ingresar un número ID válido.");
         }
     }
         
@@ -250,3 +253,4 @@ public class Clientesmenu {
     }
 
 }
+
