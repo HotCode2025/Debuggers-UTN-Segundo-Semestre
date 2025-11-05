@@ -12,11 +12,7 @@
  * * DEPENDENCIA:
  * Requiere la clase 'Clientes' (modelo) y la clase 'ConexionDB' (para obtener la conexión a la base de datos).
  */
-package SistemaDeVentas;
-
-/*
- * @author Debuggers UTN
-*/
+package sistemadeventas;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,32 +21,30 @@ import java.util.List;
 public class ClientesDAO {
     // ------------------------------------------------------------------------------------------------------------
     // Agegamos un nuevo cliente
+
     public void agregarCliente(Clientes cliente) {
         // Insertamos los datos en la tabla 'clientes'
         String sql = "INSERT INTO clientes (nombre, telefono, correo, direccion) VALUES (?, ?, ?, ?)";
-        
-        try (Connection conn = ConexionDB.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) { 
+
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNombre());
             pstmt.setString(2, cliente.getTelefono());
             pstmt.setString(3, cliente.getCorreo());
             pstmt.setString(4, cliente.getDireccion());
             pstmt.executeUpdate();
-        } 
-        catch (SQLException e) { 
+        } catch (SQLException e) {
             System.err.println("Error al agregar cliente: " + e.getMessage());
         }
-    } 
-    
+    }
+
     // ------------------------------------------------------------------------------------------------------------
     // Agegamos un nuevo cliente
     public void modificarCliente(Clientes cliente) {
         // Modificamos los datos en la tabla 'clientes' segun el ID 
-        String sql = "UPDATE clientes SET nombre = ?, telefono = ?, correo = ?, direccion = ? WHERE id = ?"; 
-        
-        try (Connection conn = ConexionDB.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) { 
+        String sql = "UPDATE clientes SET nombre = ?, telefono = ?, correo = ?, direccion = ? WHERE id = ?";
+
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNombre());
             pstmt.setString(2, cliente.getTelefono());
@@ -58,21 +52,18 @@ public class ClientesDAO {
             pstmt.setString(4, cliente.getDireccion());
             pstmt.setInt(5, cliente.getId());
             pstmt.executeUpdate();
-        } 
-        catch (SQLException e) { 
+        } catch (SQLException e) {
             System.err.println("Error al agregar cliente: " + e.getMessage());
         }
-    } 
+    }
 
     // ------------------------------------------------------------------------------------------------------------
     // Lista todos los cliente
     public List<Clientes> listarTodos() {
         List<Clientes> listaClientes = new ArrayList<>();
-        String sql = "SELECT * FROM clientes"; 
+        String sql = "SELECT * FROM clientes";
 
-        try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) { 
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql);  ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 Clientes cliente = crearClienteDesdeResultSet(rs);
@@ -92,24 +83,22 @@ public class ClientesDAO {
         // Usamos LIKE para búsqueda flexible e LOWER para insensibilidad a mayúsculas
         String sql = "SELECT * FROM clientes WHERE LOWER(nombre) LIKE LOWER(?)";
 
-        try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Prepara el término con comodines %
-            pstmt.setString(1, "%" + terminoBusqueda + "%"); 
+            pstmt.setString(1, "%" + terminoBusqueda + "%");
 
-            try (ResultSet rs = pstmt.executeQuery()) {
+            try ( ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     clientesEncontrados.add(crearClienteDesdeResultSet(rs));
                 }
             }
-        } 
-        catch (SQLException e) { 
+        } catch (SQLException e) {
             System.err.println("Error al buscar por nombre: " + e.getMessage());
         }
         return clientesEncontrados;
-    }    
-    
+    }
+
     // ------------------------------------------------------------------------------------------------------------
     // Busca un cliente específico por su ID.
     public Clientes buscarPorId(int idBusqueda) {
@@ -118,24 +107,22 @@ public class ClientesDAO {
         // Búsqueda exacta por ID
         String sql = "SELECT * FROM clientes WHERE id = ?";
 
-        try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, idBusqueda); 
+            pstmt.setInt(1, idBusqueda);
 
-            try (ResultSet rs = pstmt.executeQuery()) {
+            try ( ResultSet rs = pstmt.executeQuery()) {
                 // Si encuentra un resultado (solo debería haber uno)
                 if (rs.next()) {
                     cliente = crearClienteDesdeResultSet(rs);
                 }
             }
-        } 
-        catch (SQLException e) { 
+        } catch (SQLException e) {
             System.err.println("Error al buscar por ID: " + e.getMessage());
         }
         return cliente; // Devuelve el objeto o null si no lo encuentra
     }
-    
+
     private Clientes crearClienteDesdeResultSet(ResultSet rs) throws SQLException {
         Clientes cliente = new Clientes();
         cliente.setId(rs.getInt("id"));
@@ -145,5 +132,26 @@ public class ClientesDAO {
         cliente.setDireccion(rs.getString("direccion"));
         return cliente;
     }
+    
+    //---------------------------------------------------------------------------------------------------------------
+    // Elimina un cliente por si ID
+    public boolean eliminarCliente(int id) {
+        boolean eliminado = false;
+        String sql = "DELETE FROM clientes WHERE id = ?";
+        
+        try (Connection conn = ConexionDB.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, id);
+            
+            // executeUpdate retorna el numero de filas afectadas
+            // si es mayor que 0, significa que si borró algo
+            int filasAfectadas = pstmt.executeUpdate();
+            eliminado = (filasAfectadas > 0);
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar cliente co ID " + id + ": " + e.getMessage());
+        }
+        
+        return eliminado;
+    } 
 }
-
