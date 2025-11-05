@@ -1,17 +1,9 @@
-/*
- * 
- */
-
-package SistemaDeVentas;
-
-/*
- * @author Debuggers UTN
-*/
+package sistemadeventas;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class ClientesMenu {
+public class Clientesmenu {
 
     // Scanner para leer la entrada del usuario
     private static final Scanner scanner = new Scanner(System.in);
@@ -23,30 +15,34 @@ public class ClientesMenu {
 
         do {
             mostrarSubmenu();
-            
+
             try {
                 opcion = Integer.parseInt(scanner.nextLine());
-                
+
                 switch (opcion) {
                     case 1:
                         System.out.println("Agregar Nuevo Cliente");
-                        crearCliente(); 
-                    break;
+                        crearCliente();
+                        break;
                     case 2:
                         System.out.println("Mostrar Todos los Clientes");
                         mostrarTodosClientes();
-                    break;
+                        break;
                     case 3:
                         buscarPorId();
-                    break;
+                        break;
                     case 4:
                         buscarPorNombre();
-                    break;
+                        break;
                     case 5:
                         System.out.println("Función: Modificar los datos de un Clientes...");
                         modificarCliente();
-                    break;
-
+                        break;
+                        
+                    case 6:
+                        System.out.println("Eliminar Cliente");
+                        eliminarCliente();
+                        break;
 
                     case 0:
                         System.out.println("Volviendo al Menú Principal.");
@@ -64,7 +60,7 @@ public class ClientesMenu {
                 System.out.println("\nPresiona ENTER para volver al submenú de Clientes...");
                 scanner.nextLine();
             }
-            
+
         } while (opcion != 0);
     }
 
@@ -105,12 +101,12 @@ public class ClientesMenu {
             System.err.println("Error: " + e.getMessage());
         }
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     private static void modificarCliente() {
         System.out.println("\n--- MODIFICAR CLIENTE ---");
         System.out.print("Ingresa el ID del cliente a modificar: ");
-        
+
         int id = Integer.parseInt(scanner.nextLine());
 
         System.out.println("Ingresa los NUEVOS datos:");
@@ -122,7 +118,7 @@ public class ClientesMenu {
         String email = scanner.nextLine();
         System.out.print("Nueva Direccion: ");
         String direccion = scanner.nextLine();
-            
+
         try {
             // 0 en el ID indica que es un nuevo registro
             Clientes clienteActualizado = new Clientes(id, nombre, telefono, email, direccion);
@@ -133,7 +129,7 @@ public class ClientesMenu {
             System.err.println("Error: " + e.getMessage());
         }
     }
-    
+
     private static void mostrarTodosClientes() {
         System.out.println("==================================================");
         System.out.println("        LISTADO DE TODOS LOS CLIENTES");
@@ -154,20 +150,20 @@ public class ClientesMenu {
                 String telefono = cliente.getTelefono();
                 String correoTruncado = cortarCadena(cliente.getCorreo(), 20);
                 String direccionTruncada = cortarCadena(cliente.getDireccion(), 30);
-                
+
                 System.out.printf("| %-4d | %-30s | %-15s | %-20s | %-30s |%n",
-                    cliente.getId(),
-                    nombreTruncado,
-                    telefono,
-                    correoTruncado,
-                    direccionTruncada
+                        cliente.getId(),
+                        nombreTruncado,
+                        telefono,
+                        correoTruncado,
+                        direccionTruncada
                 );
             }
             System.out.println("-------------------------------------------------------------------------------------------------------------------");
             System.out.println("Total de registros: " + todosLosClientes.size());
         }
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     private static void buscarPorId() {
         System.out.print("Ingresa el ID (número entero): ");
@@ -199,6 +195,48 @@ public class ClientesMenu {
         }
     }
     
+    //------------------------------------------------------------------------------------------------------------------
+    private static void eliminarCliente(){
+        System.out.println("\n--- ELIMINAR CLIENTE ---");
+        System.out.println("Ingresa el ID del cliente a eliminar: ");
+        
+        int id;
+        try {
+            id = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e){
+            System.out.println("ERROR: El ID debe ser un número entero.");
+            return;
+        }
+        
+        // Buscar y mostrar el cliente antes de borrar
+        Clientes cliente = dao.buscarPorId(id);
+        
+        if (cliente == null){
+            System.out.println("No se encontró ningún cliente con el ID: " + id);
+            return;
+        }
+        
+        System.out.println("\nSe eliminará al siguiente cliente:");
+        System.out.println(cliente); 
+        
+        System.out.print("\n¿Estás seguro de que deseas eliminarlo? (S/N): ");
+        String confirmacion = scanner.nextLine();
+
+        if (confirmacion.equalsIgnoreCase("S")) {
+            try {
+                // Llamamos al DAO para que ejecute la baja
+                dao.eliminarCliente(id); 
+                System.out.println("Cliente eliminado correctamente.");
+            } catch (Exception e) {
+                System.err.println("Error al intentar eliminar el cliente: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Operación cancelada.");
+        }
+    }
+        
+    
+
     private static String cortarCadena(String texto, int ancho) {
         if (texto == null) {
             return "";
