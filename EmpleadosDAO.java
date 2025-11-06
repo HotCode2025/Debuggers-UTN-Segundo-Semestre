@@ -56,13 +56,13 @@ public class EmpleadoData {
     int opcion = 0;
     do {
         opcion = Integer.parseInt(JOptionPane.showInputDialog(
-            "=== MenÃº de Empleados ===\n" +
+            "=== Menú de Empleados ===\n" +
             "1. Alta de empleado\n" +
             "2. Listar empleados\n" +
             "3. Modificar empleado\n" +
             "4. Eliminar empleado\n" +
             "5. Salir\n\n" +
-            "Ingrese una opciÃ³n:"));
+            "Ingrese una opción:"));
 
         switch (opcion) {
             case 1:
@@ -78,11 +78,12 @@ public class EmpleadoData {
                 eliminarEmpleado();
                 break;
             case 5:
-                JOptionPane.showMessageDialog(null, "Saliendo del mÃ³dulo de empleados...");
+                JOptionPane.showMessageDialog(null, "Saliendo del módulo de empleados...");
                 break;
             default:
-                JOptionPane.showMessageDialog(null, "OpciÃ³n invÃ¡lida, intente nuevamente.");
+                JOptionPane.showMessageDialog(null, "Opción inválida, intente nuevamente.");
         }
     } while (opcion != 5);
 }
 }
+
