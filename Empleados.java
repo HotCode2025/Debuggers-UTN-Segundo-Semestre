@@ -1,75 +1,103 @@
-/*
- * 
- */
+package gestionempleados;
 
-package SistemaDeVentas;
+public class Empleado {
 
-/*
- * @author Debuggers UTN
-*/
+        private int idEmpleado;
+        private String nombre;
+        private String apellido;
+        private String tipoDocumento;
+        private String nroDocumento;
+        private String cuil;
+        private String sexo;
+        private String fechaNacimiento;
+        private String domicilio;
+        private String barrio;
+        private String localidad;
+        private String provincia;
+        private String codigoPostal;
+        private String telCelular;
+        private String telFijo;
+        private String email;
+        private String fechaIngreso;
+        private String fechaEgreso;
+        private String puesto;
+        private double sueldoBase;
+        private String horario;
+        private int idUsuario;
+        private boolean estado; // true=activo, false=inactivo
 
-public class Empleados {
-    private int id;
-    private String nombre;
-    private String dni;
-    private String direccion;
-    private String telefono;
-    private String correo;
+        public Empleado(int idEmpleado, String nombre, String apellido, String puesto, double SueldoBase) {
+            this.idEmpleado = idEmpleado;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.puesto = puesto;
+            this.sueldoBase = SueldoBase;
+            this.estado = true;
+        }
 
-    public Empleados() {
-        // Constructor vacio
-    }
+        //Getters y Setters
+        public int getIdEmpleado() {
+            return this.idEmpleado;
+        }
 
-    public Empleados(int id, String nombre, String dni, String direccion, String telefono, String correo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.dni = dni;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.correo = correo;
-    }
+        public void setIdEmpleado(int idEmpleado) {
+            this.idEmpleado = idEmpleado;
+        }
 
-    public int getId() {
-        return id;
-    }
+        public String getNombre() {
+            return nombre;
+        }
 
-    public String getNombre() {
-        return nombre;
-    }
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+        public String getApellido() {
+            return this.apellido;
+        }
 
-    public String getDni() {
-        return dni;
-    }
+        public void setApellido(String apellido) {
+            this.apellido = apellido;
+        }
 
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
+        public String getPuesto() {
+            return this.puesto;
+        }
 
-    public String getDireccion() {
-        return direccion;
-    }
+        public void setPuesto(String puesto) {
+            this.puesto = puesto;
+        }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+        public double getSueldoBase() {
+            return this.sueldoBase;
+        }
 
-    public String getTelefono() {
-        return telefono;
-    }
+        public void setSueldoBase(double SueldoBase) {
+            this.sueldoBase = SueldoBase;
+        }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
+        public boolean isEstado() {
+            return this.estado;
+        }
 
-    public String getCorreo() {
-        return correo;
-    }
+        public void setEstado(boolean estado) {
+            this.estado = estado;
+        }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Empleado{");
+            sb.append("idEmpleado=").append(idEmpleado);
+            sb.append(", nombre=").append(nombre);
+            sb.append(", apellido=").append(apellido);
+            sb.append(", puesto=").append(puesto);
+            sb.append(", sueldoBase=").append(sueldoBase);
+            sb.append(", estado=").append(estado);
+            sb.append('}');
+            return sb.toString();
+        }
+
 }
+
+
