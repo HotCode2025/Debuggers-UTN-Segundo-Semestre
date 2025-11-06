@@ -82,7 +82,30 @@ public class ProductosDAO {
         
         return producto;
     }
+// ------------------------------------------------------------------------------------------------------------
+// Devuelve todos los productos registrados (para usar en el listado general de stock)  PARTE AGREGADA DE STOCK NECESARIA.
+public List<Productos> listarTodos() {
+    List<Productos> lista = new ArrayList<>();
+    String sql = "SELECT * FROM productos";
 
+    try (Connection conn = ConexionDB.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            Productos producto = new Productos();
+            producto.setId(rs.getInt("id"));
+            producto.setNombre(rs.getString("nombre"));
+            producto.setPrecioVenta(rs.getDouble("precioVenta"));
+            producto.setIdProveedor(rs.getInt("idProveedor"));
+            lista.add(producto);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al listar productos: " + e.getMessage());
+    }
+    return lista;
+}
     
     
 }
