@@ -37,6 +37,10 @@ public class MenuPrincipal {
                         // Llama al menú del módulo Proveedores
 //                        ProveedorMenu.ejecutarMenu();
                         break;
+                    case 4:
+                        //Agregado llama al menu del modulo de Stock//
+                        new StockManagement().mostrarMenuStock();
+                        break;
                     case 0:
                         
                         System.out.println("Saliendo del sistema.");
@@ -64,6 +68,7 @@ public class MenuPrincipal {
         System.out.println("\t 1. Módulo Clientes");
         System.out.println("\t 2. Módulo Empleados");
         System.out.println("\t 3. Módulo Proveedores");
+        System.out.println("\t 4. Módulo Stock");  //Agregada la opcion de Stock//
         System.out.println("\t 0. Salir del Sistema");
         System.out.println("");
         System.out.println("=========================================");
