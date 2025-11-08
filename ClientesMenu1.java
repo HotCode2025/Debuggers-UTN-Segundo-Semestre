@@ -2,7 +2,8 @@
  * CLASE: ClientesMenu
  *
  * PROPÓSITO:
- * Proporciona una interfaz de consola para interactuar con la gestión de clientes.
+ * Proporciona una interfaz gráfica simple (usando JOptionPane) para interactuar 
+ * con la gestión de clientes.
  * Esta clase contiene el bucle principal del menú para el módulo de Clientes,
  * y se encarga de recibir la entrada del usuario, validar las opciones,
  * y coordinar las llamadas al Data Access Object (DAO) 'ClientesDAO' para
@@ -14,297 +15,349 @@ package SistemaDeVentas;
  * @author Debuggers UTN - Jairo
  */
 import java.util.List;
-import java.util.Scanner;
+// Importamos los componentes de Swing (JOptionPane) y AWT (para listas)
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.Dimension;
+import java.awt.Font;
 
 public class ClientesMenu {
 
-    // Scanner para leer la entrada del usuario (compartido por todos los métodos)
-    private static final Scanner scanner = new Scanner(System.in);
-    // Instancia del DAO para interactuar con la base de datos
+    // Instancia del DAO (Data Access Object)
     private static final ClientesDAO dao = new ClientesDAO();
 
     /**
-     * Inicia el bucle principal del menú de Clientes.
-     * Muestra las opciones, solicita la entrada y ejecuta la operación seleccionada
-     * hasta que el usuario elija la opción 0 para salir.
+     * Inicia el bucle principal del menú gráfico de Clientes.
+     * Muestra las opciones usando JOptionPane, solicita la entrada y
+     * ejecuta la operación seleccionada hasta que el usuario elija "Volver".
      */
     public static void ejecutarMenu() {
-        int opcion;
+        int opcion = -1;
+        String input;
 
         do {
-            mostrarSubmenu();
+            // Muestra el menú principal del módulo
+            input = JOptionPane.showInputDialog(
+                    null, // Componente padre (null para centrar)
+                    getMenuMessage(), // Mensaje (con formato HTML)
+                    "MÓDULO GESTIÓN DE CLIENTES", // Título de la ventana
+                    JOptionPane.PLAIN_MESSAGE // Tipo de icono
+            );
 
-            try {
-                // Lee la entrada como texto y la convierte a número
-                opcion = Integer.parseInt(scanner.nextLine());
+            // Si el usuario presiona "Cancelar" o cierra el diálogo, input es null.
+            if (input == null) {
+                opcion = 0; // Tratar como "Volver"
+            } else {
+                try {
+                    // Convertir la entrada de texto a número
+                    opcion = Integer.parseInt(input.trim());
 
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Agregar Nuevo Cliente");
-                        crearCliente();
-                        break;
-                    case 2:
-                        System.out.println("Mostrar Todos los Clientes");
-                        mostrarTodosClientes();
-                        break;
-                    case 3:
-                        buscarPorId();
-                        break;
-                    case 4:
-                        buscarPorNombre();
-                        break;
-                    case 5:
-                        System.out.println("Función: Modificar los datos de un Clientes...");
-                        modificarCliente();
-                        break;
-                    case 6:
-                        System.out.println("Eliminar Cliente");
-                        eliminarCliente();
-                        break;
-                    case 0:
-                        System.out.println("Volviendo al Menú Principal.");
-                        break;
-                    default:
-                        System.out.println("Opción no válida. Intente de nuevo.");
+                    // Switch para manejar la opción del usuario
+                    switch (opcion) {
+                        case 1: // Agregar
+                            crearCliente();
+                            break;
+                        case 2: // Listar
+                            mostrarTodosClientes();
+                            break;
+                        case 3: // Buscar por ID
+                            buscarPorId();
+                            break;
+                        case 4: // Buscar por Nombre
+                            buscarPorNombre();
+                            break;
+                        case 5: // Modificar
+                            modificarCliente();
+                            break;
+                        case 6: // Eliminar
+                            eliminarCliente();
+                            break;
+                        case 0: // Volver
+                            JOptionPane.showMessageDialog(null, "Volviendo al Menú Principal.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null,
+                                    "Opción no válida (" + opcion + "). Inténtalo de nuevo.",
+                                    "Error de Entrada",
+                                    JOptionPane.ERROR_MESSAGE);
+                            break;
+                    }
+                } catch (NumberFormatException e) {
+                    // Captura si el usuario ingresa texto no numérico
+                    JOptionPane.showMessageDialog(null, "Entrada inválida. Por favor, ingrese un número.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                    opcion = -1; // Mantener el bucle activo
                 }
-            } catch (NumberFormatException e) {
-                // Captura si el usuario ingresa texto en lugar de un número
-                System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                opcion = -1; // Asigna un valor inválido para que el bucle continúe
             }
-
-            // Pausa después de la operación, si no es la opción de salir
-            if (opcion != 0) {
-                System.out.println("\nPresiona ENTER para volver al submenú de Clientes...");
-                scanner.nextLine(); // Espera que el usuario presione Enter
-            }
-        } while (opcion != 0);
+        } while (opcion != 0); // El bucle termina cuando se elige "Volver"
     }
 
     /**
-     * Imprime en consola las opciones disponibles del submenú de Clientes.
+     * Genera el mensaje del menú formateado con HTML para JOptionPane.
+     *
+     * @return Un String con el contenido del menú en HTML.
      */
-    private static void mostrarSubmenu() {
-        System.out.println("\n======= SUBMENU MÓDULO CLIENTES =======");
-        System.out.println("\t1. Agregar Nuevo Cliente");
-        System.out.println("\t2. Ver Lista de Clientes");
-        System.out.println("\t3. Buscar Cliente por ID");
-        System.out.println("\t4. Buscar Cliente por Nombre");
-        System.out.println("\t5. Modificar Cliente");
-        System.out.println("\t6. Eliminar Cliente");
-        System.out.println("\t0. Volver al Menú Principal");
-        System.out.println("");
-        System.out.println("=========================================");
-        System.out.print("Elige una acción: ");
+    private static String getMenuMessage() {
+        return "<html><body>"
+                + "<h2>MENÚ DE CLIENTES</h2><hr>"
+                + "<b>Elige un módulo:</b>"
+                + "<ul>"
+                + "<li><b>1.</b> Agregar Nuevo Cliente</li>"
+                + "<li><b>2.</b> Ver Lista de Clientes</li>"
+                + "<li><b>3.</b> Buscar Cliente por ID</li>"
+                + "<li><b>4.</b> Buscar Cliente por Nombre</li>"
+                + "<li><b>5.</b> Modificar Cliente</li>"
+                + "<li><b>6.</b> Eliminar Cliente</li>"
+                + "<li><b>0.</b> Volver al Menú Principal</li>"
+                + "</ul>"
+                + "<p>Ingresa el número de la opción deseada:</p>"
+                + "</body></html>";
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     /**
-     * Solicita al usuario los datos de un nuevo cliente (nombre, teléfono, etc.)
-     * y llama al DAO para guardarlo en la base de datos.
+     * Muestra una serie de diálogos para recopilar los datos de un nuevo cliente
+     * y llama al DAO para guardarlo.
      */
     private static void crearCliente() {
-        System.out.println("\n--- AGREGAR NUEVO CLIENTE ---");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-
+        // Pedimos los datos uno por uno
+        String nombre = JOptionPane.showInputDialog(null, "Nombre:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (nombre == null) {
+            return; // El usuario presionó Cancelar
+        }
+        String telefono = JOptionPane.showInputDialog(null, "Teléfono:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (telefono == null) {
+            return;
+        }
+        String email = JOptionPane.showInputDialog(null, "Email:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (email == null) {
+            return;
+        }
+        String direccion = JOptionPane.showInputDialog(null, "Dirección:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (direccion == null) {
+            return;
+        }
         try {
-            // 0 en el ID indica que es un nuevo registro (la BD asignará el ID)
+            // Crea el objeto y lo pasa al DAO
             Clientes nuevoCliente = new Clientes(0, nombre, telefono, email, direccion);
             dao.agregarCliente(nuevoCliente);
-            System.out.println("\nCliente: " + nombre + " agregado correctamente");
+            // Mostramos un mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Cliente: " + nombre + " agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            // Si ocurre algún error en la capa DAO (ej. BD desconectada)
-            System.err.println("Error al agregar el cliente: " + e.getMessage());
+            // Mostramos un mensaje de error
+            JOptionPane.showMessageDialog(null, "Error al agregar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     /**
-     * Solicita al usuario el ID de un cliente existente y los nuevos datos.
-     * Llama al DAO para actualizar la información en la base de datos.
+     * Pide el ID de un cliente, busca sus datos actuales, y luego pide los
+     * nuevos datos (pre-rellenando los campos) para actualizarlos.
      */
     private static void modificarCliente() {
-        System.out.println("\n--- MODIFICAR CLIENTE ---");
-        System.out.print("Ingresa el ID del cliente a modificar: ");
-
+        String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID del cliente a modificar:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (idStr == null) {
+            return; // Canceló
+        }
         try {
-            int id = Integer.parseInt(scanner.nextLine());
+            int id = Integer.parseInt(idStr);
 
-            // Opcional: Se podría buscar primero al cliente para confirmar que existe
-            // Clientes clienteCheck = dao.buscarPorId(id);
-            // if (clienteCheck == null) {
-            //     System.out.println("No se encontró cliente con ID: " + id);
-            //     return;
-            // }
+            // Verificamos si el cliente existe antes de pedir más datos
+            Clientes clienteExistente = dao.buscarPorId(id);
+            if (clienteExistente == null) {
+                JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con el ID: " + id, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            System.out.println("Ingresa los NUEVOS datos (deje en blanco para no cambiar):");
-            // NOTA: Esta implementación reemplaza todos los campos.
-            // Una mejora sería verificar si el campo está en blanco y mantener el valor anterior.
-            System.out.print("Nuevo Nombre: ");
-            String nombre = scanner.nextLine();
-            System.out.print("Nuevo Teléfono: ");
-            String telefono = scanner.nextLine();
-            System.out.print("Nuevo Email: ");
-            String email = scanner.nextLine();
-            System.out.print("Nueva Direccion: ");
-            String direccion = scanner.nextLine();
-
-            // Crea el objeto cliente con los datos actualizados
+            // Pedimos los nuevos datos, usando los datos existentes como valor por
+            // defecto.
+            // La sobrecarga de showInputDialog con 7 argumentos permite esto.
+            String nombre = (String) JOptionPane.showInputDialog(null, "Nuevo Nombre:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getNombre());
+            if (nombre == null) {
+                return;
+            }
+            String telefono = (String) JOptionPane.showInputDialog(null, "Nuevo Teléfono:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getTelefono());
+            if (telefono == null) {
+                return;
+            }
+            String email = (String) JOptionPane.showInputDialog(null, "Nuevo Email:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getCorreo());
+            if (email == null) {
+                return;
+            }
+            String direccion = (String) JOptionPane.showInputDialog(null, "Nueva Dirección:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getDireccion());
+            if (direccion == null) {
+                return;
+            }
+            // Creamos el objeto actualizado y lo enviamos al DAO
             Clientes clienteActualizado = new Clientes(id, nombre, telefono, email, direccion);
             dao.modificarCliente(clienteActualizado);
-            System.out.println("\nCliente: " + nombre + " se modifico correctamente");
+            JOptionPane.showMessageDialog(null, "Cliente: " + nombre + " se modificó correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException e) {
-            System.out.println("ERROR: El ID debe ser un número entero.");
+            JOptionPane.showMessageDialog(null, "ERROR: El ID debe ser un número entero.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            // Si da algun tipo de error lo mostramos
-            System.err.println("Error al modificar el cliente: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Llama al DAO para obtener la lista completa de clientes
-     * y la imprime en la consola en un formato de tabla.
-     */
-    private static void mostrarTodosClientes() {
-        System.out.println("==================================================");
-        System.out.println("            LISTADO DE TODOS LOS CLIENTES");
-        System.out.println("==================================================");
-
-        List<Clientes> todosLosClientes = dao.listarTodos(); // Llama al método del DAO
-
-        if (todosLosClientes.isEmpty()) {
-            System.out.println("No hay clientes registrados en el sistema.");
-        } else {
-            // Imprime una cabecera formateada
-            System.out.printf("| %-4s | %-30s | %-15s | %-20s | %-30s |%n", "ID", "NOMBRE", "TELÉFONO", "CORREO", "DIRECCIÓN");
-            System.out.println("-------------------------------------------------------------------------------------------------------------------");
-
-            // Itera sobre la lista e imprime cada cliente
-            for (Clientes cliente : todosLosClientes) {
-                // Trunca las cadenas largas para que no rompan el formato de la tabla
-                String nombreTruncado = cortarCadena(cliente.getNombre(), 30);
-                String telefono = cliente.getTelefono();
-                String correoTruncado = cortarCadena(cliente.getCorreo(), 20);
-                String direccionTruncada = cortarCadena(cliente.getDireccion(), 30);
-
-                System.out.printf("| %-4d | %-30s | %-15s | %-20s | %-30s |%n",
-                        cliente.getId(),
-                        nombreTruncado,
-                        telefono,
-                        correoTruncado,
-                        direccionTruncada);
-            }
-            System.out.println("-------------------------------------------------------------------------------------------------------------------");
-            System.out.println("Total de registros: " + todosLosClientes.size());
+            JOptionPane.showMessageDialog(null, "Error al modificar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     /**
-     * Solicita un ID al usuario, llama al DAO para buscar un cliente
-     * y muestra el resultado en consola.
+     * Obtiene la lista de todos los clientes y la muestra en un JTextArea con
+     * fuente monoespaciada (para alinear la tabla) dentro de un JScrollPane.
+     */
+    private static void mostrarTodosClientes() {
+        List<Clientes> todosLosClientes = dao.listarTodos();
+
+        if (todosLosClientes.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay clientes registrados en el sistema.", "Listado de Clientes", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Usamos StringBuilder para construir eficientemente la tabla
+            StringBuilder sb = new StringBuilder(400);
+            sb.append(String.format("| %-4s | %-30s | %-15s | %-20s | %-30s |%n", "ID", "NOMBRE", "TELÉFONO", "CORREO", "DIRECCIÓN"));
+            sb.append("-------------------------------------------------------------------------------------------------------------------\n");
+
+            // Añadimos cada cliente al String
+            for (Clientes cliente : todosLosClientes) {
+                sb.append(String.format("| %-4d | %-30s | %-15s | %-20s | %-30s |%n",
+                        cliente.getId(),
+                        cortarCadena(cliente.getNombre(), 30),
+                        cliente.getTelefono(),
+                        cortarCadena(cliente.getCorreo(), 20),
+                        cortarCadena(cliente.getDireccion(), 30)));
+            }
+            sb.append("-------------------------------------------------------------------------------------------------------------------\n");
+            sb.append("Total de registros: ").append(todosLosClientes.size());
+
+            // 1. Creamos el JTextArea con el texto de la tabla
+            JTextArea textArea = new JTextArea(sb.toString());
+
+            // 2. Usamos una fuente monoespaciada para que la tabla se alinee
+            // correctamente.
+            textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            textArea.setEditable(false);
+
+            // 3. Creamos el JScrollPane y le añadimos el JTextArea
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            // 4. Definimos un tamaño preferido para el diálogo
+            scrollPane.setPreferredSize(new Dimension(800, 400)); // Ajusta el tamaño
+
+            // 5. Mostramos el scroll pane (que es un Component) en el diálogo
+            JOptionPane.showMessageDialog(null, scrollPane, "Listado de Todos los Clientes", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    /**
+     * Pide un ID, busca al cliente y muestra su información (usando
+     * toString())
+     * o un mensaje de advertencia si no se encuentra.
      */
     private static void buscarPorId() {
-        System.out.println("\n--- BUSCAR CLIENTE POR ID ---");
-        System.out.print("Ingresa el ID (número entero): ");
+        String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID (número entero):", "Buscar por ID", JOptionPane.PLAIN_MESSAGE);
+        if (idStr == null) {
+            return; // Canceló
+        }
         try {
-            int id = Integer.parseInt(scanner.nextLine());
+            int id = Integer.parseInt(idStr);
             Clientes cliente = dao.buscarPorId(id);
 
             if (cliente != null) {
-                System.out.println("Cliente encontrado:");
-                // Utiliza el método toString() de la clase Clientes
-                System.out.println(cliente);
+                // El método toString() de Clientes se usa aquí
+                JOptionPane.showMessageDialog(null, "Cliente encontrado:\n" + cliente.toString(), "Resultado de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró ningún cliente con ese ID.");
+                JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con ese ID.", "Resultado de Búsqueda", JOptionPane.WARNING_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            System.out.println("ERROR: El ID debe ser un número entero.");
+            JOptionPane.showMessageDialog(null, "ERROR: El ID debe ser un número entero.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     /**
-     * Solicita un término de búsqueda (nombre) al usuario, llama al DAO
-     * y muestra una lista de todos los clientes que coinciden.
+     * Pide un término de búsqueda, llama al DAO y muestra los resultados en un
+     * JTextArea dentro de un JScrollPane.
      */
     private static void buscarPorNombre() {
-        System.out.println("\n--- BUSCAR CLIENTE POR NOMBRE ---");
-        System.out.print("Ingresa el nombre o parte del nombre: ");
-        String termino = scanner.nextLine();
-
+        String termino = JOptionPane.showInputDialog(null, "Ingresa el nombre o parte del nombre:", "Buscar por Nombre", JOptionPane.PLAIN_MESSAGE);
+        if (termino == null) {
+            return; // Canceló
+        }
         List<Clientes> resultados = dao.buscarPorNombre(termino);
 
         if (resultados.isEmpty()) {
-            System.out.println(" No se encontraron coincidencias para '" + termino + "'.");
+            JOptionPane.showMessageDialog(null, "No se encontraron coincidencias.", "Resultado de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            System.out.println("Resultados encontrados (" + resultados.size() + "):");
-            // Itera y muestra cada resultado usando el método toString() de Clientes
-            resultados.forEach(System.out::println);
+            // Usamos un JTextArea para mostrar la lista de resultados
+            StringBuilder sb = new StringBuilder("Resultados encontrados (" + resultados.size() + "):\n\n");
+            for (Clientes cliente : resultados) {
+                sb.append(cliente.toString()).append("\n"); // Usa el toString() de Clientes
+            }
+
+            JTextArea textArea = new JTextArea(sb.toString());
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(600, 300)); // Tamaño del área de resultados
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Resultados de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     /**
-     * Solicita el ID de un cliente a eliminar.
-     * Busca al cliente, pide confirmación al usuario y, si se confirma,
-     * llama al DAO para eliminarlo.
+     * Pide el ID de un cliente a eliminar. Muestra los datos del cliente y
+     * pide confirmación usando un diálogo YES_NO_OPTION antes de proceder.
      */
     private static void eliminarCliente() {
-        System.out.println("\n--- ELIMINAR CLIENTE ---");
-        System.out.print("Ingresa el ID del cliente a eliminar: ");
-
+        String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID del cliente a eliminar:", "Eliminar Cliente", JOptionPane.PLAIN_MESSAGE);
+        if (idStr == null) {
+            return; // Canceló
+        }
         try {
-            int id = Integer.parseInt(scanner.nextLine());
-
-            // 1. Primero buscamos al cliente para mostrar quién es (confirmación visual)
+            int id = Integer.parseInt(idStr);
+            // Busca al cliente primero para la confirmación
             Clientes cliente = dao.buscarPorId(id);
 
             if (cliente == null) {
-                System.out.println("️No existe ningún cliente con el ID: " + id);
-                return; // Salimos del método si no existe
+                JOptionPane.showMessageDialog(null, "No existe ningún cliente con el ID: " + id, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-            // 2. Mostramos los datos del cliente a eliminar
-            System.out.println("\nVas a eliminar al siguiente cliente:");
-            System.out.println("ID:     " + cliente.getId());
-            System.out.println("Nombre: " + cliente.getNombre());
-            System.out.println("Correo: " + cliente.getCorreo());
+            // Prepara el mensaje de confirmación
+            String mensajeConfirmacion = "Vas a eliminar al siguiente cliente:\n"
+                    + "Nombre: " + cliente.getNombre() + "\n"
+                    + "Correo: " + cliente.getCorreo() + "\n\n"
+                    + "¿Estás SEGURO?";
 
-            // 3. Pedimos confirmación final
-            System.out.print("\n¿Estás SEGURO? Escribe 'S' para confirmar (cualquier otra tecla cancela): ");
-            String confirmacion = scanner.nextLine();
+            // Usamos un showConfirmDialog para la confirmación SÍ/NO
+            int confirmacion = JOptionPane.showConfirmDialog(
+                    null,
+                    mensajeConfirmacion,
+                    "Confirmar Eliminación",
+                    JOptionPane.YES_NO_OPTION, // Botones SÍ/NO
+                    JOptionPane.WARNING_MESSAGE); // Icono de advertencia
 
-            if (confirmacion.equalsIgnoreCase("S")) {
-                // 4. Llamamos al DAO para eliminar
+            // El usuario presionó SÍ
+            if (confirmacion == JOptionPane.YES_OPTION) {
                 boolean eliminado = dao.eliminarCliente(id);
-
                 if (eliminado) {
-                    System.out.println("Cliente eliminado correctamente.");
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    // Esto podría pasar si hay restricciones (ej. claves foráneas)
-                    System.out.println("Error: No se pudo eliminar el cliente.");
+                    JOptionPane.showMessageDialog(null, "Error: No se pudo eliminar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                System.out.println("Operación cancelada.");
+                // El usuario presionó NO o cerró el diálogo
+                JOptionPane.showMessageDialog(null, "Operación cancelada.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("ERROR: Debes ingresar un número ID válido.");
+            JOptionPane.showMessageDialog(null, "ERROR: Debes ingresar un número ID válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
      * Función auxiliar para cortar una cadena de texto a un ancho especificado.
-     * Utilizada principalmente para mantener la alineación de la tabla en consola.
+     * Utilizada principalmente para mantener la alineación de la tabla en
+     * {@link #mostrarTodosClientes()}.
      *
      * @param texto La cadena a cortar.
      * @param ancho El ancho máximo deseado.
