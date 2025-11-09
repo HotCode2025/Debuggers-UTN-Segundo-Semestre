@@ -1,89 +1,155 @@
 /*
- * Clase modelo que representa a un empleado dentro del sistema.
- * Contiene toda la información personal, laboral y de contacto de un empleado.
- * 
- * @author Debuggers UTN
+ * Clase modelo que representa a un empleado dentro del sistema de ventas.
+ * Su función principal es almacenar y manejar toda la información relevante
+ * de cada empleado, como sus datos personales y laborales.
  */
+package SistemaDeVentas;
 
-package gestionempleados;
+/*
+ * @author Debuggers UTN - Celeste
+ */
+public class Empleados {
+    
+    // ==========================
+    // Atributos o propiedades
+    // ==========================
 
-public class Empleado {
+    private int id;              // Identificador único del empleado
+    private String nombre;       // Nombre del empleado
+    private String apellido;     // Apellido del empleado
+    private String dni;          // Documento Nacional de Identidad
+    private String direccion;    // Domicilio del empleado
+    private String telefono;     // Número de teléfono de contacto
+    private String correo;       // Correo electrónico del empleado
+    private String puesto;       // Cargo o puesto que ocupa en la empresa
+    private double sueldo;       // Sueldo base correspondiente al empleado
 
-    // ===========================
-    // Atributos del empleado
-    // ===========================
-    private int idEmpleado;         // Identificador único del empleado
-    private String nombre;          // Nombre del empleado
-    private String apellido;        // Apellido del empleado
-    private String tipoDocumento;   // Tipo de documento (DNI, Pasaporte, etc.)
-    private String nroDocumento;    // Número de documento
-    private String cuil;            // Código Único de Identificación Laboral
-    private String sexo;            // Sexo del empleado
-    private String fechaNacimiento; // Fecha de nacimiento
-    private String domicilio;       // Dirección del empleado
-    private String barrio;          // Barrio donde reside
-    private String localidad;       // Ciudad o localidad
-    private String provincia;       // Provincia o estado
-    private String codigoPostal;    // Código postal
-    private String telCelular;      // Número de teléfono celular
-    private String telFijo;         // Número de teléfono fijo
-    private String email;           // Correo electrónico
-    private String fechaIngreso;    // Fecha de ingreso a la empresa
-    private String fechaEgreso;     // Fecha de egreso (si corresponde)
-    private String puesto;          // Puesto o cargo dentro de la empresa
-    private double sueldoBase;      // Sueldo base mensual
-    private String horario;         // Horario laboral
-    private int idUsuario;          // ID del usuario asociado en el sistema
-    private boolean estado;         // true = activo, false = inactivo
+    // ==========================
+    // Constructores
+    // ==========================
 
-    // ==========================================================
-    // Constructor principal con los campos más relevantes
-    // ==========================================================
-    public Empleado(int idEmpleado, String nombre, String apellido, String puesto, double SueldoBase) {
-        this.idEmpleado = idEmpleado;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.puesto = puesto;
-        this.sueldoBase = SueldoBase;
-        this.estado = true; // Por defecto, el empleado está activo
+    // Constructor vacío (necesario para inicializaciones por defecto o frameworks)
+    public Empleados() {
     }
 
-    // ==========================================================
-    // Métodos Getters y Setters (acceso y modificación de datos)
-    // ==========================================================
-    public int getIdEmpleado() { return this.idEmpleado; }
-    public void setIdEmpleado(int idEmpleado) { this.idEmpleado = idEmpleado; }
+    /*
+     * Constructor con parámetros.
+     * Permite crear objetos Empleados con todos sus atributos definidos al momento de instanciar.
+     */
+    public Empleados(int id, String nombre, String apellido, String dni, String direccion, 
+                     String telefono, String correo, String puesto, double sueldo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.puesto = puesto;
+        this.sueldo = sueldo;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    // ==========================
+    // Métodos Getters y Setters
+    // ==========================
+    // Permiten acceder y modificar los valores de los atributos de forma controlada.
 
-    public String getApellido() { return this.apellido; }
-    public void setApellido(String apellido) { this.apellido = apellido; }
+    public int getId() {
+        return id;
+    }
 
-    public String getPuesto() { return this.puesto; }
-    public void setPuesto(String puesto) { this.puesto = puesto; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public double getSueldoBase() { return this.sueldoBase; }
-    public void setSueldoBase(double SueldoBase) { this.sueldoBase = SueldoBase; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public boolean isEstado() { return this.estado; }
-    public void setEstado(boolean estado) { this.estado = estado; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    // ==========================================================
-    // Método toString(): retorna una descripción legible del objeto
-    // ==========================================================
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(String puesto) {
+        this.puesto = puesto;
+    }
+
+    public double getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    // ==========================
+    // Método toString()
+    // ==========================
+    /*
+     * Este método sobrescribe el método toString() de la clase Object.
+     * Su objetivo es devolver una representación en texto del objeto Empleados,
+     * mostrando todos sus atributos de manera legible.
+     * 
+     * Es útil para mostrar información por consola o en interfaces gráficas.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Empleado{");
-        sb.append("idEmpleado=").append(idEmpleado);
-        sb.append(", nombre=").append(nombre);
-        sb.append(", apellido=").append(apellido);
-        sb.append(", puesto=").append(puesto);
-        sb.append(", sueldoBase=").append(sueldoBase);
-        sb.append(", estado=").append(estado);
+        sb.append("id=").append(id);
+        sb.append(", Nombre=").append(nombre);
+        sb.append(", Apellido=").append(apellido);
+        sb.append(", Nro Documento=").append(dni);
+        sb.append(", Dirección=").append(direccion);
+        sb.append(", Nro Teléfono=").append(telefono);
+        sb.append(", Correo=").append(correo);
+        sb.append(", Puesto=").append(puesto);
+        sb.append(", Sueldo=").append(sueldo);
         sb.append('}');
         return sb.toString();
     }
 }
-
