@@ -2,6 +2,7 @@
  * Clase encargada de gestionar la lista de empleados desde memoria.
  * Permite dar de alta, listar, modificar y eliminar empleados usando JOptionPane.
  * 
+ *
  * @author Debuggers UTN
  */
 
