@@ -1,15 +1,17 @@
 /*
- * Interfaz de consola (JOptionPane) para gestión de empleados.
+ * Interfaz de gestión de empleados conectada con la base de datos.
+ * Permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * utilizando la clase EmpleadosDAO.
+ * 
+ * @author Debuggers UTN
  */
+
 package SistemaDeVentas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * @author Debuggers UTN
- */
 public class EmpleadosMenu {
 
     public static void mostrarMenu() {
@@ -40,6 +42,9 @@ public class EmpleadosMenu {
         } while (opcion != 0);
     }
 
+    // ==========================================================
+    // Alta de empleado con carga de datos manual
+    // ==========================================================
     private static void altaEmpleado(EmpleadosDAO dao) {
         try {
             String nombre = JOptionPane.showInputDialog("Nombre:");
@@ -59,6 +64,9 @@ public class EmpleadosMenu {
         }
     }
 
+    // ==========================================================
+    // Listado completo de empleados en formato tabla
+    // ==========================================================
     private static void listarEmpleados(EmpleadosDAO dao) {
         List<Empleados> lista = dao.listarTodos();
         if (lista.isEmpty()) {
@@ -86,6 +94,9 @@ public class EmpleadosMenu {
         JOptionPane.showMessageDialog(null, scrollPane, "LISTADO DE EMPLEADOS", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // ==========================================================
+    // Modificación de un registro existente
+    // ==========================================================
     private static void modificarEmpleado(EmpleadosDAO dao) {
         int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del empleado a modificar:"));
         Empleados emp = dao.buscarPorId(id);
@@ -107,6 +118,9 @@ public class EmpleadosMenu {
         }
     }
 
+    // ==========================================================
+    // Eliminación lógica de un empleado (baja)
+    // ==========================================================
     private static void eliminarEmpleado(EmpleadosDAO dao) {
         int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del empleado a eliminar:"));
         if (dao.eliminarEmpleado(id)) {
@@ -116,6 +130,9 @@ public class EmpleadosMenu {
         }
     }
 
+    // ==========================================================
+    // Búsqueda individual por ID
+    // ==========================================================
     private static void buscarEmpleado(EmpleadosDAO dao) {
         int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del empleado:"));
         Empleados emp = dao.buscarPorId(id);
