@@ -64,7 +64,7 @@ public class Ventas {
         } while (existe == false);
         
         Clientes cliente = clientesDAO.buscarPorId(nroCliente);
-        
+        //Creamos el desarrollo front del programa en la seccion de ventas.
         nroVenta = 0;
         do {
             System.out.println("+--------------------------------------------+");
@@ -91,7 +91,7 @@ public class Ventas {
             System.out.println(" ");
             
             int totalProductos = utilDAO.totalRegistros("productos");
-            
+            //pedimos el numero de producto al usuario
             do {
                 System.out.println("Numero Producto(0(cero) para finalizar)");
                 nroProducto = entrada.nextInt();
@@ -118,7 +118,7 @@ public class Ventas {
                 
             }while(!(salir.equalsIgnoreCase("S")|| salir.equalsIgnoreCase("N")));
         }while(!(salir.equalsIgnoreCase("S")));
-        
+        //generamos la cabecera de la factura
         System.out.println("+--------------------------------------------------------------------------+");
         System.out.println("|                                  |R|                                     |");
         System.out.println("| DISTRIBUIDORA DEBUGGERS UTN S.A.S                                        |");
@@ -126,7 +126,7 @@ public class Ventas {
         System.out.println("+--------------------------------------------------------------------------+");
         textoMostrar = "Nombre Cliente: " + cliente.getNombre();
 
-
+        //trabajamos sobre la seccion de columnas necesarias para la factura
         while(textoMostrar.length() < 66){
             textoMostrar = textoMostrar+" ";
         }
@@ -141,7 +141,7 @@ public class Ventas {
             textoMostrar = textoMostrar+" ";
         }
         totalVenta = 0;
-
+        //trabajamos sobre el tamaño de las columnas de la factura
         for(i = 0; i <= nroVenta; i++) {
             columna1 = Integer.toString(cantidadProductoVenta[i]);
             while (columna1.length() < 6){
@@ -162,7 +162,7 @@ public class Ventas {
             System.out.println("| "+columna1+"   |"+columna2+" | "+columna3+"   | "+columna4+"    |");
             totalVenta = totalVenta + (cantidadProductoventa[i] * precioVenta[i]);
         }
-        System.out.println("+----------+--------------------------------+--------------+---------------+");
+        System.out.println("+----------+--------------------------------+--------------+---------------+"); //el cierre de la factura
         System.out.println("|                                                                          |");
         System.out.println("|                                      El total de la venta es: $ "+totalVenta);
         System.out.println("|                                                                          |");
