@@ -2,7 +2,7 @@
  * CLASE: ConexionDB
  * -----------------------------------------------------------------------------
  * PROPÓSITO:
- * Clase de utilidad (Helper) encargada de establecer y gestionar la conexión
+ * Clase de utilidad encargada de establecer y gestionar la conexión
  * a la base de datos MySQL para el sistema de ventas.
  * Esta clase centraliza los parámetros de conexión (URL, usuario y clave) 
  * y proporciona un método estático para obtener un objeto java.sql.Connection 
@@ -13,7 +13,7 @@
 package SistemaDeVentas;
 
 /*
- * @author Debuggers UTN
+ * @author Debuggers UTN - Alberto
 */
 
 import java.sql.Connection;
@@ -29,7 +29,6 @@ public class ConexionDB {
     /**
      * Establece y devuelve una conexión activa a la base de datos MySQL.
      * @return Objeto Connection
-     * @throws SQLException si falla la conexión
      */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
