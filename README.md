@@ -1,4 +1,4 @@
-# DEBUGGERS UTN – Segundo Semestre (JavaScript)
+# DEBUGGERS UTN – Segundo Semestre (Proyecto_Java)
 
 **Esta es la rama **Proyecto-Java**. Contiene todas las actividades realizadas en este proyecto.**
 
