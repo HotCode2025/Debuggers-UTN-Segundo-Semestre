@@ -1,3 +1,7 @@
+/**
+ * Clase principal que sirve como punto de entrada (runner) para el módulo de gestión de ventas.
+*/
+
 package SistemaDeVentas;
 
 /*
@@ -9,7 +13,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter; // Importar para formatear fecha
-import java.text.NumberFormat; // Lo usamos para mostrar los precios con punto de miles y como decimal
+import java.text.NumberFormat; // Lo usamos para mostrar los precios con punto de miles y coma decimal
 import java.util.Locale;
 
 public class VentasMenu {
