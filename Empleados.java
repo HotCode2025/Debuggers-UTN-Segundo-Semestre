@@ -7,22 +7,18 @@ package SistemaDeVentas;
 
 /*
  * @author Debuggers UTN - Celeste
- */
-public class Empleados {
-    
-    // ==========================
-    // Atributos o propiedades
-    // ==========================
+*/
 
-    private int id;              // Identificador único del empleado
-    private String nombre;       // Nombre del empleado
-    private String apellido;     // Apellido del empleado
-    private String dni;          // Documento Nacional de Identidad
-    private String direccion;    // Domicilio del empleado
-    private String telefono;     // Número de teléfono de contacto
-    private String correo;       // Correo electrónico del empleado
-    private String puesto;       // Cargo o puesto que ocupa en la empresa
-    private double sueldo;       // Sueldo base correspondiente al empleado
+public class Empleados {
+        private int id;              // Identificador único del empleado
+        private String nombre;       // Nombre del empleado
+        private String apellido;     // Apellido del empleado
+        private String dni;          // Documento Nacional de Identidad
+        private String direccion;    // Domicilio del empleado
+        private String telefono;     // Número de teléfono de contacto
+        private String correo;       // Correo electrónico del empleado
+        private String puesto;       // Cargo o puesto que ocupa en la empresa
+        private double sueldo;       // Sueldo base correspondiente al empleado
 
     // ==========================
     // Constructores
@@ -30,14 +26,13 @@ public class Empleados {
 
     // Constructor vacío (necesario para inicializaciones por defecto o frameworks)
     public Empleados() {
+        
     }
-
     /*
      * Constructor con parámetros.
      * Permite crear objetos Empleados con todos sus atributos definidos al momento de instanciar.
      */
-    public Empleados(int id, String nombre, String apellido, String dni, String direccion, 
-                     String telefono, String correo, String puesto, double sueldo) {
+    public Empleados(int id, String nombre, String apellido, String dni, String direccion, String telefono, String correo, String puesto, double sueldo) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -153,3 +148,4 @@ public class Empleados {
         return sb.toString();
     }
 }
+
