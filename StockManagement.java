@@ -1,7 +1,6 @@
 /*
- * Clase que gestiona la interfaz del módulo de Stock usando JOptionPane.
- * Permite al usuario ingresar movimientos y consultar reportes simples.
- */
+ * 
+*/
 
 package SistemaDeVentas;
 
@@ -15,8 +14,8 @@ import java.awt.Font;
 
 public class StockManagement {
     
-    private ProductosDAO productosDAO = new ProductosDAO(); // DAO para buscar productos
-    private List<Stock> listaStock = new ArrayList<>();      // Lista temporal (no se guarda en BD)
+    private ProductosDAO productosDAO = new ProductosDAO();
+    private StockDAO stockDAO = new StockDAO();
 
     public void mostrarMenuStock() {
         int opcion;
@@ -43,33 +42,39 @@ public class StockManagement {
     }
 
     // -----------------------------------------------------------------------------------------
-    // Registrar movimiento de stock
+    // ALTA DE MOVIMIENTO DE STOCK
     private void agregarMovimientoStock() {
-        int idProducto = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del producto:"));
-        int idProveedor = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del proveedor:"));
-        int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad (use número negativo para salida):"));
+        try {
+            int idProducto = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del producto:"));
+            int idProveedor = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del proveedor:"));
+            int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad (use número negativo para salida):"));
+
+            Stock nuevoMovimiento = new Stock(0, idProducto, idProveedor, cantidad);
+            stockDAO.agregarMovimiento(nuevoMovimiento);
         
-        Stock nuevoMovimiento = new Stock(listaStock.size() + 1, idProducto, idProveedor, cantidad);
-        listaStock.add(nuevoMovimiento);
-        JOptionPane.showMessageDialog(null, "Movimiento de stock registrado correctamente.");
+            JOptionPane.showMessageDialog(null, "Movimiento de stock registrado correctamente.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Debe ingresar un número válido para ID o cantidad.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar movimiento: " + e.getMessage());
+        }
     }
 
     // -----------------------------------------------------------------------------------------
-    // Mostrar stock actual (sumando movimientos locales)
+    // LISTADO DE STOCK ACTUAL (sumando movimientos)
     private void mostrarStockActual() {
-        if (listaStock.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay movimientos de stock registrados.");
-            return;
-        }
+        // Obtiene todos los movimientos de la base de datos
+        List<Stock> movimientos = stockDAO.listarMovimientos();
 
-        Map<Integer, Integer> stockActual = new HashMap<>();
-        for (Stock s : listaStock) {
+    Map<Integer, Integer> stockActual = new HashMap<>();
+        for (Stock s : movimientos) {
             stockActual.put(s.getIdProducto(), stockActual.getOrDefault(s.getIdProducto(), 0) + s.getCantidad());
         }
 
+        // 3. Generar la salida (mismo código)
         StringBuilder sb = new StringBuilder();
         sb.append("=== LISTADO DE STOCK ACTUAL ===\n");
-        sb.append(String.format("%-10s %-20s %-10s %-10s%n", "ID", "PRODUCTO", "STOCK", "PROVEEDOR"));
+        sb.append(String.format("%-4s %-40s %-10s %-10s%n", "ID", "PRODUCTO", "STOCK", "PROVEEDOR"));
         sb.append("-------------------------------------------------------------\n");
 
         for (var entry : stockActual.entrySet()) {
@@ -78,11 +83,11 @@ public class StockManagement {
 
             Productos producto = productosDAO.buscarPorId(idProd);
             if (producto != null) {
-                sb.append(String.format("%-10d %-20s %-10d %-10d%n",
+                sb.append(String.format("%-4d %-40s %-10d %-10d%n",
                         producto.getId(),
                         producto.getNombre(),
-                        cantidad,
-                        producto.getIdProveedor()
+                        cantidad, 
+                        producto.getIdProveedor() 
                 ));
             }
         }
@@ -91,17 +96,17 @@ public class StockManagement {
     }
 
     // -----------------------------------------------------------------------------------------
-    // Mostrar listado de precios
+    // LISTADO DE PRECIOS
     private void mostrarListadoPrecios() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== LISTADO DE PRECIOS ===\n");
-        sb.append(String.format("%-10s %-20s %-15s%n", "ID", "PRODUCTO", "PRECIO ($)"));
-        sb.append("---------------------------------------------\n");
+        sb.append(String.format("%-4s %-40s %-15s%n", "ID", "PRODUCTO", "PRECIO ($)"));
+        sb.append("--------------------------------------------------------------\n");
 
-        for (int i = 1; i <= 10; i++) { // Ejemplo, deberías reemplazar por una consulta real
+        for (int i = 1; i <= 10; i++) { 
             Productos p = productosDAO.buscarPorId(i);
             if (p != null) {
-                sb.append(String.format("%-10d %-20s %-15.2f%n",
+                sb.append(String.format("%-4d %-40s %-15.2f%n",
                         p.getId(),
                         p.getNombre(),
                         p.getPrecioVenta()
@@ -113,7 +118,7 @@ public class StockManagement {
     }
 
     // -----------------------------------------------------------------------------------------
-    // Utilidad para mostrar información en ventana desplazable
+    // UTILIDAD: MUESTRA TEXTO EN UNA VENTANA DESPLAZABLE
     private void mostrarEnVentana(String titulo, String contenido) {
         JTextArea textArea = new JTextArea(contenido);
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -124,3 +129,4 @@ public class StockManagement {
 
         JOptionPane.showMessageDialog(null, scrollPane, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
+}
