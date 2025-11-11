@@ -6,16 +6,16 @@
 
 package SistemaDeVentas;
 
+/*
+ * @author Debuggers UTN - Celeste
+*/
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * @author Debuggers UTN - Celeste
- */
-
 public class EmpleadosDAO {
-
+    
     // ==========================================================
     // MÉTODO: agregarEmpleado
     // ==========================================================
@@ -25,10 +25,11 @@ public class EmpleadosDAO {
      * y manejar de forma segura los parámetros.
      */
     public void agregarEmpleado(Empleados empleado) {
+        // Usamos la tabla 'empeados' y sus 5 columnas
         String sql = "INSERT INTO empleados (nombre, apellido, dni, direccion, telefono, correo, puesto, sueldo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) { 
 
             // Asignamos cada atributo del empleado a su posición en la consulta
             pstmt.setString(1, empleado.getNombre());
@@ -55,6 +56,7 @@ public class EmpleadosDAO {
      * identificándolo por su ID.
      */
     public boolean modificarEmpleado(Empleados empleado) {
+        // Usamos la tabla 'empleados' y sus columnas en el SET
         String sql = "UPDATE empleados SET nombre = ?, apellido = ?, dni = ?, direccion = ?, telefono = ?, correo = ?, puesto = ?, sueldo = ? WHERE id = ?"; 
         
         try (Connection conn = ConexionDB.getConnection();
@@ -73,12 +75,10 @@ public class EmpleadosDAO {
             // Devuelve true si se actualizó al menos un registro
             return pstmt.executeUpdate() > 0;
 
-        } catch (SQLException e) { 
-            System.err.println("Error al modificar empleado: " + e.getMessage());
-        }
+        } catch (SQLException e) { /* manejo de errores */ }
         return false;
     }
-
+    
     // ==========================================================
     // MÉTODO: buscarPorId
     // ==========================================================
@@ -88,6 +88,8 @@ public class EmpleadosDAO {
      */
     public Empleados buscarPorId(int idBusqueda) {
         Empleados empleado = null;
+
+        // Búsqueda exacta por ID
         String sql = "SELECT * FROM empleados WHERE id = ?";
 
         try (Connection conn = ConexionDB.getConnection();
@@ -96,6 +98,7 @@ public class EmpleadosDAO {
             pstmt.setInt(1, idBusqueda); 
 
             try (ResultSet rs = pstmt.executeQuery()) {
+                // Si encuentra un resultado (solo debería haber uno)
                 if (rs.next()) {
                     empleado = crearEmpleadoDesdeResultSet(rs);
                 }
@@ -104,7 +107,7 @@ public class EmpleadosDAO {
         catch (SQLException e) { 
             System.err.println("Error al buscar por ID: " + e.getMessage());
         }
-        return empleado;
+        return empleado; // Devuelve el objeto o null si no lo encuentra
     }
 
     // ==========================================================
@@ -118,9 +121,7 @@ public class EmpleadosDAO {
         List<Empleados> listaEmpleados = new ArrayList<>();
         String sql = "SELECT * FROM empleados";
 
-        try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try ( Connection conn = ConexionDB.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql);  ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 Empleados empleado = crearEmpleadoDesdeResultSet(rs);
@@ -153,3 +154,4 @@ public class EmpleadosDAO {
         return empleado;
     }
 }
+

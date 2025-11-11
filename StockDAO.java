@@ -31,7 +31,7 @@ public class StockDAO {
         }
     }
 
-    // Lista todos los movimientos de stock registrados
+    // Listar todos los movimientos registrados
     public List<Stock> listarMovimientos() {
         List<Stock> lista = new ArrayList<>();
         String sql = "SELECT * FROM stock";
@@ -55,13 +55,12 @@ public class StockDAO {
         return lista;
     }
 
-    // Calcula el stock actual de un producto (entradas - ventas)
+    // Calcular stock actual por producto (sumando movimientos)
     public int obtenerStockPorProducto(int idProducto) {
-        String sql = "SELECT COALESCE((SELECT SUM(cantidad) FROM stock WHERE idproducto = ?), 0) - " +
-                     "COALESCE((SELECT SUM(cantidad) FROM ventas_detalle WHERE id_producto = ?), 0) AS StockReal";
+        String sql = "SELECT COALESCE((SELECT SUM(cantidad) FROM stock WHERE idproducto = ?), 0) - COALESCE((SELECT SUM(cantidad) FROM ventas_detalle WHERE id_producto = ?), 0) AS StockReal";
           
         try (Connection conn = ConexionDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idProducto);
             pstmt.setInt(2, idProducto);
@@ -82,6 +81,7 @@ public class StockDAO {
      * Si no se encuentra el producto, muestra una advertencia.
      */
     public void descontarStock(int productoId, int cantidadVendida) throws SQLException {
+        // SQL para actualizar el stock: RESTA la cantidad vendida al stock actual.
         String sql = "UPDATE stock SET cantidad_stock = cantidad_stock - ? WHERE producto_id = ?";
         
         try (Connection conn = ConexionDB.getConnection();
@@ -93,13 +93,14 @@ public class StockDAO {
             int filasAfectadas = pstmt.executeUpdate();
             
             if (filasAfectadas == 0) {
-                System.out.println("ADVERTENCIA: No se encontró registro de stock para el producto ID " + productoId);
+                System.out.println("ADVERTENCIA: No se encontró el registro de stock para el producto ID " + productoId + ". Posiblemente falta el registro inicial.");
             } else {
-                System.out.println("Stock actualizado: -" + cantidadVendida + " unidades del producto ID " + productoId);
+                 System.out.println("Stock actualizado: " + cantidadVendida + " unidades descontadas del producto ID " + productoId);
             }
-        } catch (SQLException e) { 
+        } 
+        catch (SQLException e) { 
             System.err.println("ERROR CRÍTICO: No se pudo descontar stock del producto " + productoId);
-            throw e;
+            throw e; // Relanzar la excepción para que la clase Ventas la capture y maneje el error de transacción.
         }
     }
 }

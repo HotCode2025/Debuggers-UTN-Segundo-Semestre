@@ -1,4 +1,3 @@
-
 /*
  * CLASE: VentasDAO
  * PROPÓSITO: Manejo de la persistencia de las ventas, incluyendo el encabezado
@@ -7,7 +6,7 @@
 package SistemaDeVentas;
 
 /*
- * @author Debuggers UTN 
+ * @author Debuggers UTN - Alberto
 */
 
 import java.sql.*;

@@ -6,7 +6,7 @@
 package SistemaDeVentas;
 
 /*
- * @author Debuggers UTN
+ * @author Debuggers UTN - Fede
 */
 
 public class Stock {

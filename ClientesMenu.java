@@ -13,7 +13,8 @@ package SistemaDeVentas;
 
 /*
  * @author Debuggers UTN - Jairo
- */
+*/
+
 import java.util.List;
 // Importamos los componentes de Swing (JOptionPane) y AWT (para listas)
 import javax.swing.JOptionPane;
@@ -24,7 +25,7 @@ import java.awt.Font;
 
 public class ClientesMenu {
 
-    // Instancia del DAO (Data Access Object)
+    // Instancia del DAO (esto no cambia)
     private static final ClientesDAO dao = new ClientesDAO();
 
     /**
@@ -37,84 +38,84 @@ public class ClientesMenu {
         String input;
 
         do {
-            // Muestra el menú principal del módulo
+            // Usamos showOptionDialog para mostrar el menú
             input = JOptionPane.showInputDialog(
-                    null, // Componente padre (null para centrar)
-                    getMenuMessage(), // Mensaje (con formato HTML)
-                    "MÓDULO GESTIÓN DE CLIENTES", // Título de la ventana
-                    JOptionPane.PLAIN_MESSAGE // Tipo de icono
+                null, // null para centrar en la pantalla
+                getMenuMessage(), // Contenido del menú
+                "MÓDULO GESTIÓN DE CLIENTES", // Título de la ventana
+                JOptionPane.PLAIN_MESSAGE // Tipo de mensaje
             );
 
             // Si el usuario presiona "Cancelar" o cierra el diálogo, input es null.
             if (input == null) {
                 opcion = 0; // Tratar como "Volver"
-            } else {
+            }
+            else {
                 try {
                     // Convertir la entrada de texto a número
-                    opcion = Integer.parseInt(input.trim());
-
+                    opcion = Integer.parseInt(input.trim()); 
                     // Switch para manejar la opción del usuario
                     switch (opcion) {
                         case 1: // Agregar
                             crearCliente();
-                            break;
+                        break;
                         case 2: // Listar
                             mostrarTodosClientes();
-                            break;
+                        break;
                         case 3: // Buscar por ID
                             buscarPorId();
-                            break;
+                        break;
                         case 4: // Buscar por Nombre
                             buscarPorNombre();
-                            break;
+                        break;
                         case 5: // Modificar
                             modificarCliente();
-                            break;
+                        break;
                         case 6: // Eliminar
                             eliminarCliente();
-                            break;
+                        break;
                         case 0: // Volver
                             JOptionPane.showMessageDialog(null, "Volviendo al Menú Principal.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                            break;
+                        break;
                         default:
-                            JOptionPane.showMessageDialog(null,
-                                    "Opción no válida (" + opcion + "). Inténtalo de nuevo.",
-                                    "Error de Entrada",
-                                    JOptionPane.ERROR_MESSAGE);
-                            break;
+                            JOptionPane.showMessageDialog(null, 
+                                "Opción no válida (" + opcion + "). Inténtalo de nuevo.", 
+                                "Error de Entrada", 
+                                JOptionPane.ERROR_MESSAGE);
+                        break;
                     }
                 } catch (NumberFormatException e) {
                     // Captura si el usuario ingresa texto no numérico
                     JOptionPane.showMessageDialog(null, "Entrada inválida. Por favor, ingrese un número.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-                    opcion = -1; // Mantener el bucle activo
+                    opcion = -1; // Mantener el bucle
                 }
             }
         } while (opcion != 0); // El bucle termina cuando se elige "Volver"
     }
 
-    /**
+        /**
      * Genera el mensaje del menú formateado con HTML para JOptionPane.
      *
      * @return Un String con el contenido del menú en HTML.
      */
     private static String getMenuMessage() {
         return "<html><body>"
-                + "<h2>MENÚ DE CLIENTES</h2><hr>"
-                + "<b>Elige un módulo:</b>"
-                + "<ul>"
-                + "<li><b>1.</b> Agregar Nuevo Cliente</li>"
-                + "<li><b>2.</b> Ver Lista de Clientes</li>"
-                + "<li><b>3.</b> Buscar Cliente por ID</li>"
-                + "<li><b>4.</b> Buscar Cliente por Nombre</li>"
-                + "<li><b>5.</b> Modificar Cliente</li>"
-                + "<li><b>6.</b> Eliminar Cliente</li>"
-                + "<li><b>0.</b> Volver al Menú Principal</li>"
-                + "</ul>"
-                + "<p>Ingresa el número de la opción deseada:</p>"
-                + "</body></html>";
+            + "<h2>MENÚ DE CLIENTES</h2><hr>"
+            + "<b>Elige un módulo:</b>"
+            + "<ul>"
+            + "<li><b>1.</b> Agregar Nuevo Cliente</li>"
+            + "<li><b>2.</b> Ver Lista de Clientes</li>"
+            + "<li><b>3.</b> Buscar Cliente por ID</li>"
+            + "<li><b>4.</b> Buscar Cliente por Nombre</li>"
+            + "<li><b>5.</b> Modificar Cliente</li>"
+            + "<li><b>6.</b> Eliminar Cliente</li>"
+            + "<li><b>0.</b> Volver al Menú Principal</li>"
+            + "</ul>"
+            + "<p>Ingresa el número de la opción deseada:</p>"
+            + "</body></html>";
     }
-
-    // -----------------------------------------------------------------------------------------------------------------
+    
+        // -----------------------------------------------------------------------------------------------------------------
     /**
      * Muestra una serie de diálogos para recopilar los datos de un nuevo cliente
      * y llama al DAO para guardarlo.
@@ -122,23 +123,18 @@ public class ClientesMenu {
     private static void crearCliente() {
         // Pedimos los datos uno por uno
         String nombre = JOptionPane.showInputDialog(null, "Nombre:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (nombre == null) {
-            return; // El usuario presionó Cancelar
-        }
+        if (nombre == null) return; // El usuario presionó Cancelar
+
         String telefono = JOptionPane.showInputDialog(null, "Teléfono:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (telefono == null) {
-            return;
-        }
+        if (telefono == null) return;
+
         String email = JOptionPane.showInputDialog(null, "Email:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (email == null) {
-            return;
-        }
+        if (email == null) return;
+
         String direccion = JOptionPane.showInputDialog(null, "Dirección:", "Agregar Nuevo Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (direccion == null) {
-            return;
-        }
+        if (direccion == null) return;
+
         try {
-            // Crea el objeto y lo pasa al DAO
             Clientes nuevoCliente = new Clientes(0, nombre, telefono, email, direccion);
             dao.agregarCliente(nuevoCliente);
             // Mostramos un mensaje de éxito
@@ -156,12 +152,11 @@ public class ClientesMenu {
      */
     private static void modificarCliente() {
         String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID del cliente a modificar:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (idStr == null) {
-            return; // Canceló
-        }
+        if (idStr == null) return; // Canceló
+
         try {
             int id = Integer.parseInt(idStr);
-
+            
             // Verificamos si el cliente existe antes de pedir más datos
             Clientes clienteExistente = dao.buscarPorId(id);
             if (clienteExistente == null) {
@@ -169,25 +164,20 @@ public class ClientesMenu {
                 return;
             }
 
-            // Pedimos los nuevos datos, usando los datos existentes como valor por
-            // defecto.
+            // Pedimos los nuevos datos, usando los datos existentes como valor por defecto
             // La sobrecarga de showInputDialog con 7 argumentos permite esto.
             String nombre = (String) JOptionPane.showInputDialog(null, "Nuevo Nombre:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getNombre());
-            if (nombre == null) {
-                return;
-            }
+            if (nombre == null) return;
+
             String telefono = (String) JOptionPane.showInputDialog(null, "Nuevo Teléfono:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getTelefono());
-            if (telefono == null) {
-                return;
-            }
+            if (telefono == null) return;
+
             String email = (String) JOptionPane.showInputDialog(null, "Nuevo Email:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getCorreo());
-            if (email == null) {
-                return;
-            }
+            if (email == null) return;
+
             String direccion = (String) JOptionPane.showInputDialog(null, "Nueva Dirección:", "Modificar Cliente", JOptionPane.PLAIN_MESSAGE, null, null, clienteExistente.getDireccion());
-            if (direccion == null) {
-                return;
-            }
+            if (direccion == null) return;
+
             // Creamos el objeto actualizado y lo enviamos al DAO
             Clientes clienteActualizado = new Clientes(id, nombre, telefono, email, direccion);
             dao.modificarCliente(clienteActualizado);
@@ -216,32 +206,29 @@ public class ClientesMenu {
             sb.append(String.format("| %-4s | %-30s | %-15s | %-20s | %-30s |%n", "ID", "NOMBRE", "TELÉFONO", "CORREO", "DIRECCIÓN"));
             sb.append("-------------------------------------------------------------------------------------------------------------------\n");
 
-            // Añadimos cada cliente al String
             for (Clientes cliente : todosLosClientes) {
                 sb.append(String.format("| %-4d | %-30s | %-15s | %-20s | %-30s |%n",
                         cliente.getId(),
                         cortarCadena(cliente.getNombre(), 30),
                         cliente.getTelefono(),
                         cortarCadena(cliente.getCorreo(), 20),
-                        cortarCadena(cliente.getDireccion(), 30)));
+                        cortarCadena(cliente.getDireccion(), 30)
+                ));
             }
             sb.append("-------------------------------------------------------------------------------------------------------------------\n");
             sb.append("Total de registros: ").append(todosLosClientes.size());
 
-            // 1. Creamos el JTextArea con el texto de la tabla
+            // Creamos el JTextArea
             JTextArea textArea = new JTextArea(sb.toString());
-
-            // 2. Usamos una fuente monoespaciada para que la tabla se alinee
-            // correctamente.
+            // Usamos una fuente monoespaciada para que la tabla se alinee
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
             textArea.setEditable(false);
 
-            // 3. Creamos el JScrollPane y le añadimos el JTextArea
+            // Creamos el JScrollPane
             JScrollPane scrollPane = new JScrollPane(textArea);
-            // 4. Definimos un tamaño preferido para el diálogo
             scrollPane.setPreferredSize(new Dimension(800, 400)); // Ajusta el tamaño
 
-            // 5. Mostramos el scroll pane (que es un Component) en el diálogo
+            // Mostramos el scroll pane en el diálogo
             JOptionPane.showMessageDialog(null, scrollPane, "Listado de Todos los Clientes", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -254,13 +241,11 @@ public class ClientesMenu {
      */
     private static void buscarPorId() {
         String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID (número entero):", "Buscar por ID", JOptionPane.PLAIN_MESSAGE);
-        if (idStr == null) {
-            return; // Canceló
-        }
+        if (idStr == null) return; // Canceló
+
         try {
             int id = Integer.parseInt(idStr);
             Clientes cliente = dao.buscarPorId(id);
-
             if (cliente != null) {
                 // El método toString() de Clientes se usa aquí
                 JOptionPane.showMessageDialog(null, "Cliente encontrado:\n" + cliente.toString(), "Resultado de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
@@ -279,9 +264,8 @@ public class ClientesMenu {
      */
     private static void buscarPorNombre() {
         String termino = JOptionPane.showInputDialog(null, "Ingresa el nombre o parte del nombre:", "Buscar por Nombre", JOptionPane.PLAIN_MESSAGE);
-        if (termino == null) {
-            return; // Canceló
-        }
+        if (termino == null) return; // Canceló
+
         List<Clientes> resultados = dao.buscarPorNombre(termino);
 
         if (resultados.isEmpty()) {
@@ -290,18 +274,18 @@ public class ClientesMenu {
             // Usamos un JTextArea para mostrar la lista de resultados
             StringBuilder sb = new StringBuilder("Resultados encontrados (" + resultados.size() + "):\n\n");
             for (Clientes cliente : resultados) {
-                sb.append(cliente.toString()).append("\n"); // Usa el toString() de Clientes
+                sb.append(cliente.toString()).append("\n");
             }
-
+            
             JTextArea textArea = new JTextArea(sb.toString());
             textArea.setEditable(false);
             JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(600, 300)); // Tamaño del área de resultados
-
+            scrollPane.setPreferredSize(new Dimension(600, 300));
+            
             JOptionPane.showMessageDialog(null, scrollPane, "Resultados de Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    
     // -----------------------------------------------------------------------------------------------------------------
     /**
      * Pide el ID de un cliente a eliminar. Muestra los datos del cliente y
@@ -309,9 +293,8 @@ public class ClientesMenu {
      */
     private static void eliminarCliente() {
         String idStr = JOptionPane.showInputDialog(null, "Ingresa el ID del cliente a eliminar:", "Eliminar Cliente", JOptionPane.PLAIN_MESSAGE);
-        if (idStr == null) {
-            return; // Canceló
-        }
+        if (idStr == null) return; // Canceló
+
         try {
             int id = Integer.parseInt(idStr);
             // Busca al cliente primero para la confirmación
@@ -323,18 +306,18 @@ public class ClientesMenu {
             }
 
             // Prepara el mensaje de confirmación
-            String mensajeConfirmacion = "Vas a eliminar al siguiente cliente:\n"
-                    + "Nombre: " + cliente.getNombre() + "\n"
-                    + "Correo: " + cliente.getCorreo() + "\n\n"
-                    + "¿Estás SEGURO?";
-
+            String mensajeConfirmacion = "Vas a eliminar al siguiente cliente:\n" +
+                                         "Nombre: " + cliente.getNombre() + "\n" +
+                                         "Correo: " + cliente.getCorreo() + "\n\n" +
+                                         "¿Estás SEGURO?";
+            
             // Usamos un showConfirmDialog para la confirmación SÍ/NO
             int confirmacion = JOptionPane.showConfirmDialog(
-                    null,
-                    mensajeConfirmacion,
-                    "Confirmar Eliminación",
+                    null, 
+                    mensajeConfirmacion, 
+                    "Confirmar Eliminación", 
                     JOptionPane.YES_NO_OPTION, // Botones SÍ/NO
-                    JOptionPane.WARNING_MESSAGE); // Icono de advertencia
+                    JOptionPane.WARNING_MESSAGE);
 
             // El usuario presionó SÍ
             if (confirmacion == JOptionPane.YES_OPTION) {
@@ -375,5 +358,3 @@ public class ClientesMenu {
         return texto.substring(0, ancho - 3) + "...";
     }
 }
-
-

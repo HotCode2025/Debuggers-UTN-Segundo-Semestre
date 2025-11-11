@@ -6,11 +6,12 @@
  * en la base de datos. Almacena la información de un único cliente y proporciona los métodos 
  * de acceso (getters y setters) para cada uno de sus atributos.
  */
+
 package SistemaDeVentas;
 
 /*
  * @author Debuggers UTN - Jairo
- */
+*/
 /**
  * Representa la entidad Cliente.
  * Esta clase es un POJO (Plain Old Java Object) que mapea la tabla 'clientes'
@@ -52,12 +53,13 @@ public class Clientes {
     }
 
     // --- Métodos de Acceso (Getters y Setters) ---
+    // --- Métodos de Acceso (Getters y Setters) ---
     /**
      * Obtiene el ID del cliente.
      *
      * @return El ID numérico del cliente.
      */
-    public int getId() {
+    public int getId() { 
         return this.id;
     }
 
@@ -141,7 +143,7 @@ public class Clientes {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
+    
     /**
      * Sobrescribe el método toString() para devolver una representación en cadena
      * del objeto Cliente.
@@ -152,12 +154,12 @@ public class Clientes {
      */
     @Override
     public String toString() {
-        return "Cliente{"
-                + "ID=" + id
-                + ", Nombre='" + nombre + '\''
-                + ", Teléfono='" + telefono + '\''
-                + ", Correo='" + correo + '\''
-                + ", Dirección='" + direccion + '\''
-                + '}';
-    }
+        return "Cliente{" + 
+                "ID=" + id + 
+                ", Nombre='" + nombre + '\'' + 
+                ", Teléfono='" + telefono + '\'' + 
+                ", Correo='" + correo + '\'' + 
+                ", Dirección='" + direccion + '\'' + 
+                '}';
+        }
 }

@@ -3,7 +3,6 @@
  * Permite al usuario interactuar con el módulo de empleados
  * para realizar operaciones CRUD desde una consola gráfica simple.
  */
-
 package SistemaDeVentas;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.util.List;
 
 /*
  * @author Debuggers UTN - Celeste
- */
+*/
 
 public class EmpleadosMenu {
 
@@ -66,10 +65,9 @@ public class EmpleadosMenu {
             String direccion = JOptionPane.showInputDialog("Dirección:");
             String telefono = JOptionPane.showInputDialog("Teléfono:");
             String correo = JOptionPane.showInputDialog("Correo:");
-            String puesto = JOptionPane.showInputDialog("Puesto:");
+            String puesto = JOptionPane.showInputDialog("puesto:");
             double sueldo = Double.parseDouble(JOptionPane.showInputDialog("Sueldo:"));
 
-            // Crea un nuevo objeto empleado y lo pasa al DAO
             Empleados emp = new Empleados(0, nombre, apellido, dni, direccion, telefono, correo, puesto, sueldo);
             dao.agregarEmpleado(emp);
             JOptionPane.showMessageDialog(null, "Empleado agregado correctamente.");
@@ -100,7 +98,7 @@ public class EmpleadosMenu {
 
         for (Empleados e : lista) {
             sb.append(String.format("| %-4d | %-15s | %-15s | %-10s | %-15s | %-10.2f | %-20s | \n",
-                    e.getId(), e.getApellido(), e.getNombre(), e.getDni(), e.getPuesto(),
+                    e.getId(), e.getApellido(), e.getNombre(), e.getDni(),e.getPuesto(),
                     e.getSueldo(), e.getCorreo()));
         }
         sb.append("---------------------------------------------------------------------------------------------------------------\n");
@@ -110,7 +108,7 @@ public class EmpleadosMenu {
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(950, 400));
+        scrollPane.setPreferredSize(new java.awt.Dimension(950, 400));
         JOptionPane.showMessageDialog(null, scrollPane, "LISTADO DE EMPLEADOS", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -149,6 +147,7 @@ public class EmpleadosMenu {
      * Busca y muestra los datos de un empleado a partir de su ID.
      * Si no se encuentra, informa al usuario.
      */
+
     private static void buscarEmpleado() {
         int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese ID del empleado:"));
         Empleados emp = dao.buscarPorId(id);
