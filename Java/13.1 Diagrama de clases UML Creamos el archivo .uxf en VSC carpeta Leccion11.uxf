@@ -1,0 +1,40 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>50</x><y>70</y><w>100</w><h>30</h></coordinates><panel_attributes>Un dominio, dirección</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>100</y><w>380</w><h>600</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>120</y><w>210</w><h>210</h></coordinates><panel_attributes>&lt;&lt;Orden&gt;&gt;
+--
+-idOrden
+-producto[ ]: Producto
+-ContadorOrdenes: int
+_MAX_PRODUCTOS: INT = 10_
+--
++Orden()
++agregarProducto(productos : Producto): void
++calcularTotal(): double
++mostrarOrden(): void
+--
+Responsibilidades
+--Crear objetos orden
+--administrar los productos</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>90</x><y>390</y><w>210</w><h>260</h></coordinates><panel_attributes>&lt;&lt;Producto&gt;&gt;
+--
+-idProducto: int
+-nombre:String
+-precio: double
+_.ContadorProductos:int_
+--
+-Producto()
++Producto(nombre: String, precio: double
++getIdProducto(): int
++getNombre(): String
++setNombre(nombre: String): void
++getPrecio(): double
++setPrecio(precio: double): void
++toString(): String
+--
+Responsabilidades
+-Crear objetos de tipo producto
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>110</y><w>290</w><h>380</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>80</y><w>100</w><h>30</h></coordinates><panel_attributes>TestVentas</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>700</x><y>150</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;VentasTest&gt;&gt;
+--
++Main(args: String[]): void
+--
+Responsibilidades
+-- Ejecutar la prueba de las
+    aplicacion de ventas</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>100</x><y>30</y><w>710</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.&gt;&gt;</panel_attributes><additional_attributes>10;10;690;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>320</y><w>240</w><h>90</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;Un producto se agrega a una orden&gt;&gt;</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element></diagram>
