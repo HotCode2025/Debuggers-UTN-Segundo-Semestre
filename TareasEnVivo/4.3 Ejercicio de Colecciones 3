@@ -1,0 +1,30 @@
+#Ejercicio 3: Agregar personajes a una lista
+#escriba un programa donde cree una lista con los siguientes personajes
+#del Señor de los anillos
+"""
+Nombre: ARAGORN
+clase: GUERRERO
+raza: DÚNADAN DEL NORTE
+
+NOMBRE: GANDALF
+CLASE: MAGO
+RAZA: ISTAR
+
+NOMBRE : LEGOLAS
+CLASE: ARQUERO
+RAZA: ELFO SINDAR
+"""
+elSeñordelosAnillos ={
+        1: {"Nombre":"Aragorn","Clase":"Guerrero","Raza":"Dúnadan del Norte"},
+        2: {"Nombre":"Gandalf","Clase":"Mago","Raza":"Istar"},
+        3: {"Nombre":"Legolas","Clase":"Arquero","Raza":"Elfo Sindar"},
+        4: {"Nombre":"Gimli","Clase":"Guerrero","Raza":"Enano"}
+
+
+}
+for valor in elSeñordelosAnillos.values():
+    print (valor)
+for llave, valor in elSeñordelosAnillos.items():
+    print (llave,valor)
+print("Hemos cargado una lista con los personajes de El Señor de los anillos: ")
+print(len(elSeñordelosAnillos))
