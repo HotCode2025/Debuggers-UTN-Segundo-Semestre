@@ -17,7 +17,8 @@ Bienvenidos al repositorio del grupo **Debuggers UTN**, correspondiente al segun
 Durante este semestre trabajamos con este repositorio online en GitHub y nos organizamos de la siguiente manera:
 
 - **Rama `main`**  
-  - Se mantuvo completamente vacía, ya que consideramos que realizar *merge* desde todas las ramas sería engorroso.  
+  - Se mantuvo completamente vacía, ya que consideramos que realizar *merge* desde todas las ramas sería engorroso.
+  - **Por solicitud del profesor Ariel Betancud, procedimos a integrar todos los archivos de las distintas ramas en carpetas dentro de la rama `main`. Los commits se encuentran dentro de cada rama particular, ya que muchos archivos se denominan de la misma manera en los distintos idiomas**.
   - Los temas trabajados son similares entre lenguajes y comparten la misma numeración, por lo que no era necesario fusionarlas.
 
 - **Rama `Python`**  
